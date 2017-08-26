@@ -13,6 +13,7 @@ CREATE TABLE `black_cards` (
   `pick` smallint(6) NOT NULL DEFAULT '1',
   `card_set_id` int(9) NOT NULL,
   PRIMARY KEY (`id`)
+)
 
 INSERT INTO `black_cards` (`id`, `text`, `draw`, `pick`, `card_set_id`)
 VALUES
@@ -39,6 +40,7 @@ CREATE TABLE `white_cards` (
   `text` varchar(255) NOT NULL,
   `card_set_id` int(9) NOT NULL,
   PRIMARY KEY (`id`)
+)
 
 INSERT INTO `white_cards` (`id`, `text`, `card_set_id`)
 VALUES
@@ -57,3 +59,19 @@ VALUES
 (13,'Not wearing pants.',1),
 (14,'Consensual sex.',1),
 (15,'Her Majesty, Queen Elizabeth II.',1);
+
+
+
+
+CREATE TABLE 'users_input' (
+  id int NOT NULL AUTO_INCREMENT,
+  name VARCHAR(15) NOT NULL,
+  password NOT NULL,
+  PRIMARY KEY ('id')
+)
+
+INSERT INTO 'users_input' ()
+
+Questions for Team/TAs/Vinnie
+//How do we do this in javascript?
+//how do we connect firebase?

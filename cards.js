@@ -13,6 +13,5 @@ function dealUsersCards(){
     };
   });
 };
-
 //Need to figure out how to select RANDOM cards and not repeat
 //How do we get the different cards on different users screens
