@@ -75,3 +75,12 @@ INSERT INTO 'users_input' ()
 Questions for Team/TAs/Vinnie
 //How do we do this in javascript?
 //how do we connect firebase?
+
+
+CREATE TABLE 'game_tallys' (
+  id int NOT NULL AUTO_INCREMENT,
+  wins int NOT NULL,
+  losses int NOT NULL
+)
+
+INSERT INTO 'game_tallys' ()
