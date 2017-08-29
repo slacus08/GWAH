@@ -1,0 +1,174 @@
+
+html {
+  background: #f5f7f8;
+  -webkit-font-smoothing: antialiased;
+  padding: 20px 0;
+}
+
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: #f5f5f5;
+}
+
+.header,
+.marketing,
+.footer {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+}
+
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 80%;
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+#login {
+    margin: 0 auto;
+    width: 60%;
+}
+
+#register{
+    margin: 0 auto;
+    width: 60%;
+}
+
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+
+@media screen and (min-width: 768px) {
+  .header,
+  .marketing,
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .header {
+    margin-bottom: 30px;
+  }
+
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+.page-header{
+  margin-top:0;
+}
+
+footer{
+  margin-top:40px;
+}
+
+/******** Cards *********/
+
+
+.band {
+  width: 90%;
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 250px);
+}
+
+@media only screen and (min-width: 500px) {
+  .band {
+    grid-template-columns: repeat(4, 1fr);
+
+  }
+}
+
+@media only screen and (min-width: 850px) {
+  .band {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+.card {
+  background: white;
+  text-decoration: none;
+  color: #444;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  position: relative;
+  top: 0;
+  transition: all .1s ease-in;
+}
+
+.card:hover {
+  top: -2px;
+  box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+}
+
+.card article {
+  padding: 20px;
+}
+
+.card h1 {
+  font-size: 20px;
+  margin: 0;
+  color: #333;
+}
+
+.card p {
+  line-height: 1.4;
+}
+
+.card span {
+  font-size: 12px;
+  font-weight: bold;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin: 2em 0 0 0;
+}
+
+.item-7{
+    grid-row: 1 / span 2;
+    background: #000000;
+    color: #ffffff;
+}
