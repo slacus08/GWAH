@@ -41,7 +41,11 @@ $(document).ready(function() {
 
 
 //at this point, we need a modal asking everyone if they would like to play another round. 
-//Make it a functions and include it after the Czar has picked a card.  
+//Make it a function and include it after the Czar has picked a card.  
+
+
+
+
 
 
 	// randomly pick czar
