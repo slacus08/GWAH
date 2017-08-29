@@ -2,68 +2,103 @@ $(document).ready(function() {
 
 	// this should be an object.  Needs player username/playerpoints
 	var players = [];
-	// this should be an array.  Who ever is not in the array will be randomly selected as Czar.
-	// once all players are in the array, random select is from the array.  
-	var czar;
-	
-	// randomly pick czar
 
-	
+	var cardsInPlay = [];
+
+	var czar;
+
+	var username;
+
+//whe a player clicks start...
+	$('.divWithStart').on('click', '.startbutton', function() {
+		//Saves username. 
+		//checks for 4 players.  If 4, assigns Czar and redirects everyone accordingly. 
+		username = $(this).data("username"); 
+		gameStartPlayers();
+		//deals 8 cards to all players
+		play8or1();
+		//deals card everyone is playing to.
+		cardPickPlayTo()
+	});
+
+//when a user selects a card...
+	$('.divWithUserCards').on('click', '.card', function() {
+		// their card info will be saved and 'display card' function will run(depending on conditions);
+		cardSelected = $(this).attr("id");
+		username = $(this).data("username");
+		displayPlayedCards();
+	});
+
+//when czar choses a card...
+	$('.divWithPlayedCards').on('click', '.card', function() {
+		if(username == czar) {
+			awardPointCzarPick();
+		} else {
+			alert("You are not the Czar! You may not pick...");
+		}
+		//point is awarded to user who's card is selected. 
+	});
+
+
+//at this point, we need a modal asking everyone if they would like to play another round. 
+//Make it a functions and include it after the Czar has picked a card.  
+
+
+	// randomly pick czar
 
 	function czarPick() {
 
-		//no one has played czar yet.
-		//this is working 
 		var playerIndex;
 		var czarPlayed=[];
 
+		//no one has played czar yet. 
+
 		if(czarPlayed.length == 0) {
-			playerIndex = Math.floor(Math.random() * (players.length - 0 + 1) + 0);
-			czar = players[playerIndex];
-			czarPlayed.push(czar);	
+			playerIndex = Math.random() * (players.length - 1) + 1;
+			var czar = players[players.indexOf(playerIndex)];
+			czarPlayed.push(czar);
 
 		//one or more people have played czar
 		} else {
-			if (playerIndex + 1 >= players.length) {
-				playerIndex = 0; 
-				czar = players[playerIndex];
-				czarPlayed.push(czar);
-		// czar is next in line
-			} else {
-				playerIndex = playerIndex + 1;
-				czar = players[playerIndex]; 
-			};
+			playerIndex = playerIndex + 1;
+			czar = players.indexOf(playerIndex);
+
+			if (czar >= players.length) {
+				playerIndex = 0;
+				czar = players.indexOf(playerIndex);
+			}; 
 		};
 	};
 
 
 	function cardPickPlayTo() {
 
-		//picks a random card to play. Remove that card from the list.
+		//picks a random card and removes that card from the list.
 		//creates a count for the number of cards.
 
 		var count;
 
-		var cardsFromSql; //this should probably be a global variable
+		var cardsFromSql = [];
 
-		var indexOfCard =  Math.floor(Math.random() * (cardsFromSql.length - 0 + 1) + 0);
+		var playCard;
 
-		var playCard = cardsFromSql[indexOfCard];
+		var indexOfCard =  Math.floor(Math.random() * (Math.max.apply(Math, cardsFromSql) - Math.min.apply(Math, cardsFromSql)) + Math.min.apply(Math, cardsFromSql));
+
+		playCard = cardsFromSql.indexOf(indexOfCard);
 
 		if (cardsFromSql.length > 0) {
 	    	cardsFromSql.splice(indexOfCard, 1);
 	    	count ++;
 		}
 
-		// console.log(cardsFromSql) for testing
+	// generate random#.  Take that number as the index and play that card. 
 
-		// If the length of the cards from the array, then we need to pull a new stack of cards from the database.  
-		// Need an else statement here.  
+
 	};
 
-	function play8() {
+	function play8or1() {
 
-	//picks 8 cards. Removes those cards from the list.
+		//picks 8 cards. Removes those cards from the list.
 
 		var countPlay8;
 
@@ -71,50 +106,65 @@ $(document).ready(function() {
 
 		var deal = [];
 
-		for(var i = 0; i < 8; i++) {
-			deal.push(whiteCards[i]);
-			countPlay8++;
-		};
+		if(deal.length == 0) {
+			for(var i = 0; i < 8; i++) {
+				deal.push(whiteCards[i]);
+				countPlay8++;
+			};
 
-		whiteCards.splice(0, 8);
+			whiteCards.splice(0, 8);	
+		} else {
 
-		// need a way to check to see if the count is at 40
-		// play the cards from the array deal with the index of count. 
+			for(var i = 0; i < players.length; i++) {
+
+				var amountOfCards = players[i].cards.length;
+
+				if( amountOfCards < 8) {
+					var numberToPush = 8 - amountOfCards;
+
+					for(var j = 0; j < numberToPush; j++) {
+						deal.push(whiteCards[i])
+					};
+				};
+
+				whiteCards.splice(0,amountOfCards);
+			};
+		}; 
 
 	};
 
-	function onClickPlayCard() {
-		// run this function when someone clicks on their card
-		// it will store the card information and play the card on   
-		// clickedOn = $(this).attr("src");
-		// clickedOnId = $(this).attr("id");
-
-	};
+	//this function is not done yet.  
 
 	function displayPlayedCards() {
 
-		// if the cards played == the number of (players -1) display cards
-		if(players.length-1 == cardsInPlay.length) {
-			// display text of cards on screen
-		}
-	}
-
-	function allPlayersHave8() {
-		// make sure all players have 8 cards for each round
-		for(var i = 0; i < players.length - 1; i++) {
-			if(player[i].cards.length < 8) {
-				// push 1 card
+			if(players.length == cardsInPlay.length) {
+				$()//display html test of cards on screen. 
 			}
-		}
-	}
+	};
+
 
 	function awardPointCzarPick() {
-		// clickedOn = $(this).attr("src");
-		// clickedOnId = $(this).attr("id");
-		// userAwarded = **access user name here.  Same as last project?**
+			// clickedOn = $(this).attr("src");
+			// clickedOnId = $(this).attr("id");
+			// userAwarded = **access user name here.  Same as last project?**
 
 	}
 
-	function gameStart() {
-		// minimum of 3 players. Once three players have hit *submit* we can start to play.  
+	function gameStartPlayers() {
+			// minimum of 4 players. Once three players have hit *submit* we can start to play.
+			//on.click 'start', if player.length < 6, push new player to players.  
+			//if at player capacity, alert("Not accepting new players"). 
+
+			if(players.length = 4) {
+				czarPick();
+				for(var i = 0; i < players.length; i++) {
+					if(czar == username) {
+						window.location == //get page two information from lebezza
+					}
+				}
+				//push new user array/object data to players array.
+				window.location = 
+			} else {
+				alert("The player count it at capacity! Please wait till the next game.")
+			}
 	}
