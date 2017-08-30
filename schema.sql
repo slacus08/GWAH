@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS gw_cahDB;
-CREATE database gw_cahDB;
+DROP DATABASE IF EXISTS sequelize_passport;
+CREATE database sequelize_passport;
 
-USE gw_cahDB;
+USE sequelize_passport;
 
 
 DROP TABLE IF EXISTS `black_cards`;
@@ -59,9 +59,6 @@ VALUES
 (13,'Not wearing pants.',1),
 (14,'Consensual sex.',1),
 (15,'Her Majesty, Queen Elizabeth II.',1);
-
-
-
 
 CREATE TABLE 'users_input' (
   id int NOT NULL AUTO_INCREMENT,
