@@ -1,0 +1,28 @@
+[debug] [2017-08-30T21:47:24.219Z] ----------------------------------------------------------------------
+[debug] [2017-08-30T21:47:24.222Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-08-30T21:47:24.222Z] CLI Version:   3.9.2
+[debug] [2017-08-30T21:47:24.222Z] Platform:      darwin
+[debug] [2017-08-30T21:47:24.222Z] Node Version:  v6.10.2
+[debug] [2017-08-30T21:47:24.223Z] Time:          Wed Aug 30 2017 17:47:24 GMT-0400 (EDT)
+[debug] [2017-08-30T21:47:24.223Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-08-30T21:47:24.237Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-08-30T21:47:24.237Z] > authorizing via signed-in user
+[debug] [2017-08-30T21:47:24.239Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/gwagainst-humanity  
+ Wed Aug 30 2017 17:47:24 GMT-0400 (EDT)
+[debug] [2017-08-30T21:47:24.637Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-30T21:47:24.638Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/gwagainst-humanity/tokens  
+ Wed Aug 30 2017 17:47:24 GMT-0400 (EDT)
+[debug] [2017-08-30T21:47:25.026Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/mimac/GWCodingBootcamp/Team_Project-2/GWAH'...
+[info] 
+[debug] [2017-08-30T21:47:25.029Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/gwagainst-humanity  
+ Wed Aug 30 2017 17:47:25 GMT-0400 (EDT)
+[debug] [2017-08-30T21:47:25.227Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-30T21:47:25.228Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/681470807876/clients/_:getWebAppConfig  
+ Wed Aug 30 2017 17:47:25 GMT-0400 (EDT)
+[debug] [2017-08-30T21:47:25.579Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+
