@@ -1,0 +1,14 @@
+
+<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAIIRy12UpsG-QJkFP-MyPOO4zt3d5lQ0E",
+    authDomain: "gwagainst-humanity.firebaseapp.com",
+    databaseURL: "https://gwagainst-humanity.firebaseio.com",
+    projectId: "gwagainst-humanity",
+    storageBucket: "gwagainst-humanity.appspot.com",
+    messagingSenderId: "681470807876"
+  };
+  firebase.initializeApp(config);
+</script>
