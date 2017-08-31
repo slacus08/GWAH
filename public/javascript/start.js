@@ -58,15 +58,52 @@ $(document).ready(function() {
    		for(var i = 0; i < players.length; i++) {
 
 	   	  play8or1();
+	   	  var player = players[i];
 
-		  database.ref("players").push({
-		  	"cards": deal,
-		  	"username": players[i], 
-			"czar": true
+	   	  writeUserData(players);
+
+		};
+
+		function writeUserData(players) {
+		  database.ref(players[i]).push({
+			  	"cards": deal,
+			  	"username": players[i], 
+				"czar": true,
+				"points": ''
 		  });
+
+
+
+		 //  database.ref("players").push({
+		 //  	"cards": deal,
+		 //  	"username": players[i], 
+			// "czar": true,
+			// "points": 
+		 //  });
 		}
 
+		updateToFirebaseTest();
+		
 	});
+
+	updateToFirebaseTest();
+
+
+	function updateToFirebaseTest(czar) {
+	  // A post entry.
+	  var postData = {
+	  	"czar": false
+	  };
+
+	  // Get a key for a new Post.
+	  var newPostKey = database.ref().child('czar').push().key;
+
+	  // Write the new post's data simultaneously in the posts list and the user's post list.
+	  var updates = {};
+	  updates['/user1/czar' + newPostKey] = postData;
+
+	  return database.ref().update(updates);
+	};
 
 	console.log("I work!");
 
