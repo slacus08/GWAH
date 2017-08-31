@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GWAH</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+	<div class="container-fluid">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+						<li role="presentation"><a href="/">Dashboard</a></li>
+					  <li role="presentation"><a href="/users/logout">Logout</a></li>
+
+					  <li role="presentation"><a href="/users/login">Login</a></li>
+					  <li role="presentation"><a href="/users/register">Register</a></li>
+
+          </ul>
+        </nav>
+        <h3 class="text-muted">GWAH</h3>
+      </div>
+
+
+      <div class="row">
+        <div class="col-lg-12">
+          {{#if success_msg}}
+            <div class="alert alert-success">{{success_msg}}</div>
+          {{/if}}
+
+          {{#if error_msg}}
+            <div class="alert alert-danger">{{error_msg}}</div>
+          {{/if}}
+
+          {{#if error}}
+            <div class="alert alert-danger">{{error}}</div>
+          {{/if}}
+
+          {{{body}}}
+        </div>
+
+
+      </div>
+
+      <footer class="footer">
+        <p>&copy; GWAH </p>
+      </footer>
+
+    </div> <!-- /container -->
+</body>
+  
+<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+<script>
+  // // Initialize Firebase
+  // var config = {
+  //   apiKey: "AIzaSyDSSNV1gjwiaCVLTvKSZwgW5wNoSZ6HMOs",
+  //   authDomain: "gwah-199f8.firebaseapp.com",
+  //   databaseURL: "https://gwah-199f8.firebaseio.com",
+  //   projectId: "gwah-199f8",
+  //   storageBucket: "",
+  //   messagingSenderId: "817131336094"
+  // };
+  // firebase.initializeApp(config);
+</script>
+
+  <script src="/javascript/start.js"></script>
+</html>
