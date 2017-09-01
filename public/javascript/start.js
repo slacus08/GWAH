@@ -30,16 +30,15 @@ $(document).ready(function() {
 	var deal = [];
 
 
-	var config = {
-	    apiKey: "AIzaSyDSSNV1gjwiaCVLTvKSZwgW5wNoSZ6HMOs",
-	    authDomain: "gwah-199f8.firebaseapp.com",
-	    databaseURL: "https://gwah-199f8.firebaseio.com",
-	    projectId: "gwah-199f8",
-	    storageBucket: "",
-	    messagingSenderId: "817131336094"
-  	};
-  
-  	firebase.initializeApp(config);
+  var config = {
+    apiKey: "AIzaSyAqm2yQy7q4BqQshPYz_ImXRdqcFAu3vb4",
+    authDomain: "personal-czar-test.firebaseapp.com",
+    databaseURL: "https://personal-czar-test.firebaseio.com",
+    projectId: "personal-czar-test",
+    storageBucket: "",
+    messagingSenderId: "373637557988"
+  };
+  firebase.initializeApp(config);
 
   	var database = firebase.database();
 
@@ -83,26 +82,28 @@ $(document).ready(function() {
 		}
 
 		updateToFirebaseTest();
-		
 	});
 
-	updateToFirebaseTest();
+	
 
 
-	function updateToFirebaseTest(czar) {
-	  // A post entry.
-	  var postData = {
-	  	"czar": false
-	  };
+	function updateToFirebaseTest() {
 
-	  // Get a key for a new Post.
-	  var newPostKey = database.ref().child('czar').push().key;
+	  // var ref = new Firebase('https://gwah-199f8.firebaseio.com/parentofkeys')
 
-	  // Write the new post's data simultaneously in the posts list and the user's post list.
-	  var updates = {};
-	  updates['/user1/czar' + newPostKey] = postData;
+	  // var query = ref.orderByChild('player').equalTo('user1');
 
-	  return database.ref().update(updates);
+	  czar2 = database.ref("user1").child("czar");
+
+	  czar2.on('value', function(snapshot) {
+	  	console.log(czar2);
+	  })
+
+
+	  // query.on('child_added', function(snapshot) {
+   //  	snapshot.ref().update({ czar: 'sofiaTest' });
+	  // });
+
 	};
 
 	console.log("I work!");
