@@ -1,27 +1,18 @@
 $(document).ready(function() {
-
-	//get all the info from SQL and push to firebase!
-
-    //these variables need to be set to the list in firebase (WHICH COMES FROM SQL)
-    //var cardsFromSql = [] <-- 50 cards
-	//var whiteCards = [] <--50 cards
-
-
-	//Every time a user joins, it needs to update to firebase WITHIN the firebase object.  
-	//once we do that, we will delete this array and readjust the javascript game play text. 
+ 
 	var players = ["user1", "user2", "user3", "user4"]
 
 	//needs to come from firebase, which comes from sql
 	var cardsFromSql = ["fun1", "fun2","fun3","fun4","fun5","fun6","fun7","fun8","fun9","fun10","fun11","fun12","fun13","fun14","fun15","fun16","fun17","fun18","fun19"];
 
 	//needs to come from firebase, which comes from sql
-	var whiteCards = ["WCfun1", "WCfun2","WCfun3","WCfun4","WCfun5","WCfun6","WCfun7","WCfun8","WCfun9","WCfun10","WCfun11","WCfun12","WCfun13","WCfun14","WCfun15","WCfun16","WCfun17","WCfun18","WCfun19"];
+	var whiteCardsFromSql = ["WCfun1", "WCfun2","WCfun3","WCfun4","WCfun5","WCfun6","WCfun7","WCfun8","WCfun9","WCfun10","WCfun11","WCfun12","WCfun13","WCfun14","WCfun15","WCfun16","WCfun17","WCfun18","WCfun19"];
 	
 	//updates in firebase to true or false
 	var czar;
 
 	//once a user has played czar, this need to update in FIREBASE
-	var czarPlayed=[];
+	var czarPlayed= [];
 
 	//
 	var playerIndex;
@@ -30,37 +21,79 @@ $(document).ready(function() {
 	var deal = [];
 
 
-
-///this section contain mostly firebase stuff
-
-	var config = {
-	    apiKey: "AIzaSyAqm2yQy7q4BqQshPYz_ImXRdqcFAu3vb4",
-	    authDomain: "personal-czar-test.firebaseapp.com",
-	    databaseURL: "https://personal-czar-test.firebaseio.com",
-	    projectId: "personal-czar-test",
-	    storageBucket: "",
-	    messagingSenderId: "373637557988"
+	// Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyDSSNV1gjwiaCVLTvKSZwgW5wNoSZ6HMOs",
+	    authDomain: "gwah-199f8.firebaseapp.com",
+	    databaseURL: "https://gwah-199f8.firebaseio.com",
+	    projectId: "gwah-199f8",
+	    storageBucket: "gwah-199f8.appspot.com",
+	    messagingSenderId: "817131336094"
 	  };
-	
-	firebase.initializeApp(config);
+	  firebase.initializeApp(config);
 
 	var database = firebase.database();
 
 
+
+
 	$(document).on("click", '#start', function(event) {
+
+	//onlick - game start. 
+	//1) firebase is updated with the following information: 
+	//    - white cards
+	//	  - black cards
+	//    - list of all users and their information (game starts when we reach 4 players)
+	//    - 	czar (if set to user1, we can delete this)
+	//    -     the hand they are dealt
+	//    -     everyone starts with 0 points
+	//2) screen should update with the correct card information depending on user (WC and BC)
+	//3) 
+
 
       event.preventDefault();
 
-      gameStartPlayers();  
+    //1)
+    //firebase is updated with white and black cards
+      updateCardsToFirebase(cardsFromSql, whiteCardsFromSql);
+    //firebase is updated with user information(user length is set to 4 to make this happen.  We will need to change it so that once 4 users are logged in, it auto starts)
+      updateUserInfoToFirebase();
 
-      cardPickPlayTo();
+    //2) screen is updated with info from firebase
 
-	  czarPick();
+    //black card is played
+      singleBlackCardPlayed();
+
+    //white cards appear on screen
+      dealtHandAppearsOnScreen();
 
 
-   		for(var i = 0; i < players.length; i++) {
+	});
 
-	   	  play8or1();
+
+
+///////////////functions////////////////////////////////
+
+	//I push two arrays to firebase. 
+	function updateCardsToFirebase(cardsFromSql, whiteCards) {
+		//temporary - pulling from my computer. 
+		database.ref().update({
+			"blackCards": cardsFromSql,
+			"whiteCards": whiteCardsFromSql
+		})
+	};
+
+
+	//I loop through users and deal them their cards and initial score
+	function updateUserInfoToFirebase() {
+
+		for(var i = 0; i < players.length; i++) {
+
+	   	 database.ref().on("value", function(childSnapshot) {
+			whiteCards = childSnapshot.val().whiteCards;
+			   deal = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
+		});
+
 	   	  var player = players[i];
 
 	   	  writeUserData(player);
@@ -71,188 +104,34 @@ $(document).ready(function() {
 		  database.ref(player).set({
 			  	"hand": deal,
 			  	"username": player, 
-				"czar": true,
-				"points": ''
+				"points": 0
 		  });
 
-		}
-
-		updateCardsToFirebase(cardsFromSql, whiteCards);
-		updateToFirebaseTest();
-		pullCards();
-	});
-
-	function updateCardsToFirebase(cardsFromSql, whiteCards) {
-		//temporary - pulling from my computer. 
-		database.ref().update({
-			"blackCards": cardsFromSql,
-			"whiteCards": whiteCards
-		})
-	}
-
-
-	function updateToFirebaseTest() {
-
-		var pleaseWork = "updateCzarPls";
-		database.ref("user1").update({ czar: "workpls" })
-
-		}
-
-	function pullWhCards() {	
-
-		database.ref().on("value", function(childSnapshot) {
-			whiteCards = childSnapshot.val().whiteCards;
-			   console.log(whiteCards);
-		});
-	};
-
-	function pullBcCards() {	
-
-		database.ref().on("value", function(childSnapshot) {
-			blackCards = childSnapshot.val().blackCards;
-			   console.log(blackCards);
-		});
-	};
-
-//////end FIREBASE functions and pushes
-
-
-
-////ONCLICK sectionc
-
-	//when a user selects a card...
-	$('.band').on('click', 'p', function() {
-			// their card info will be saved and 'display card' function will run(depending on conditions);
-		cardSelected = $('.test').html();
-			// username = $(this).data("username");
-			// displayPlayedCards();
-		alert("I am working!");
-	});
-
-
-	function czarPick() {
-
-		//no one has played czar yet. 
-
-		if(czarPlayed.length == 0) {
-			playerIndex = Math.floor(Math.random() * (players.length - 0 + 1)) + 0;
-			czar = players[playerIndex];
-			czarPlayed.push(czar);
-			console.log(czarPlayed);
-		//one or more people have played czar
-		} else {
-
-			playerIndex = playerIndex + 1;
-
-			if (playerIndex >= players.length) {
-				playerIndex = 0;
-				czar = players[playerIndex];
-				console.log("you looped through all the players");
-			} else {
-				czar = players[playerIndex];
-				console.log("not 0 so just plus 1");
-				console.log(czar);
-			}; 			
 		};
-	};
+	}; 
 
-//picks a random black card and removes that card from the list.
-//creates a count for the number of cards.
-	function cardPickPlayTo() {
+	function singleBlackCardPlayed() {
 
-		var count;
+		var indexOfCard =  Math.floor(Math.random() * (17 - 0 + 1)) + 0
 
-		var playCard;
-
-		var indexOfCard =  Math.floor(Math.random() * (cardsFromSql.length - 0 + 1)) + 0;
-
-		playCard = cardsFromSql[indexOfCard];
-
-		if (cardsFromSql.length > 0) {
-	    	cardsFromSql.splice(indexOfCard, 1);
-	    	count ++;
-	    	$("#play2").html(playCard);
-		}
+		database.ref().on("value", function(childSnapshot) {
+			blackCards = childSnapshot.val().blackCards[indexOfCard];
+				$("#play2").html(blackCards)
+		});
 
 	};
 
-	function play8or1() {
-		//picks 8 cards. Removes those cards from the list.
-
-		var countPlay8;
-
-		// cards from sql
-
-		var numberToPush;
-
-		if(deal.length == 0) {
-			for(var i = 0; i < 8; i++) {
-				deal.push(whiteCards[i]);
-				$(".card" + i).html(whiteCards[i])
-				countPlay8++;
-			};
-
-			whiteCards.splice(0, 8);	
-		}
-		 else {
-
-		 	//we might need this if we set up players as objects in array. 
-			// for(var i = 0; i < players.length; i++) {
-
-				//we may need this variable depending on how we structure our players variable. 
-				// var amountOfCards = players[i].cards.length;
-
-				if( deal.length < 8) {
-					numberToPush = 8 - deal.length;
-					for(var j = 0; j < numberToPush; j++) {
-						deal.push(whiteCards[j]);
-						$(".card" + j).html(whiteCards[j]);
-					};
-				};
-
-				whiteCards.splice(0, numberToPush);
-			};
-		}; 
-
-
-	function gameStartPlayers() {
-			// minimum of 4 players. Once three players have hit *submit* we can start to play.
-			//on.click 'start', if player.length < 6, push new player to players.  
-			//if at player capacity, alert("Not accepting new players"). 
-
-			if(players.length == 4) {
-				czarPick();
-			} else {
-				alert("The player count it at capacity! Please wait till the next game.")
+	function dealtHandAppearsOnScreen() {
+		database.ref().on("value", function(childSnapshot) {
+			for(var i = 0; i < 6; i++){
+				whiteCards = childSnapshot.val().whiteCards[i];
+			   	$(".card" + i).html(whiteCards)
 			}
+		});
 	}
 
-	// when czar choses a card...
-	// 	$('.divWithPlayedCards').on('click', '.card', function() {
-	// 		if(username == czar) {
-	// 			awardPointCzarPick();
-	// 		} else {
-	// 			alert("You are not the Czar! You may not pick...");
-	// 		}
-	// 		//point is awarded to user who's card is selected. 
-	// 	});
-
-	// randomly pick czar
-
-	// //this function is not done yet.  
-
-	// function displayPlayedCards() {
-
-	// 		if(players.length == cardsInPlay.length) {
-	// 			$()//display html test of cards on screen. 
-	// 		}
-	// };
+});
 
 
-	// function awardPointCzarPick() {
-	// 		// clickedOn = $(this).attr("src");
-	// 		// clickedOnId = $(this).attr("id");
-	// 		// userAwarded = **access user name here.  Same as last project?**
 
-	// }
-	});
+      
