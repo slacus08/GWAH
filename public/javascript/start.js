@@ -17,8 +17,9 @@ $(document).ready(function() {
 	//
 	var playerIndex;
 
+	var hand = [];
+
 	//the function that is associated with this needs to come from firebase. 
-	var deal = [];
 
 
 	// Initialize Firebase
@@ -87,22 +88,28 @@ $(document).ready(function() {
 	//I loop through users and deal them their cards and initial score
 	function updateUserInfoToFirebase() {
 
-		for(var i = 0; i < players.length; i++) {
+		//pulls 8 cards for the user
 
-	   	 database.ref().on("value", function(childSnapshot) {
-			whiteCards = childSnapshot.val().whiteCards;
-			   deal = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
+		database.ref().on("value", function(childSnapshot) {
+			for(var i = 0; i < 6; i++) {
+				hand.push(childSnapshot.val().whiteCards[i]);
+				console.log(hand);
+			}
 		});
 
+		//loops through all the users and updates their info in firebase
+
+		for(var i = 0; i < players.length; i++) {
+		
 	   	  var player = players[i];
 
-	   	  writeUserData(player);
+	   	  writeUserData(player, hand);
 
 		};
 
-		function writeUserData(player) {
+		function writeUserData(player, hand) {
 		  database.ref(player).set({
-			  	"hand": deal,
+			  	"hand": hand,
 			  	"username": player, 
 				"points": 0
 		  });
@@ -124,7 +131,7 @@ $(document).ready(function() {
 	function dealtHandAppearsOnScreen() {
 		database.ref().on("value", function(childSnapshot) {
 			for(var i = 0; i < 6; i++){
-				whiteCards = childSnapshot.val().whiteCards[i];
+				whiteCards = childSnapshot.val().user1.hand[i];
 			   	$(".card" + i).html(whiteCards)
 			}
 		});
