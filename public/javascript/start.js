@@ -137,7 +137,7 @@ $(document).ready(function() {
 	}
 
 	function updateCardsWithSelected(cardSelected) {
-	$(".band").html("<div class='item-1 card'> <div class='tumb'></div> <article> <p class = 'card0'>" + cardSelected + "</p> </article> </a> </div>")
+	$('.item-1').html("<div class='tumb'></div> <article> <p class = 'card0'>" + cardSelected + "</p> </article> </a>")
 	}
 /////on-clicks
 
