@@ -30,17 +30,21 @@ $(document).ready(function() {
 	var deal = [];
 
 
-  var config = {
-    apiKey: "AIzaSyAqm2yQy7q4BqQshPYz_ImXRdqcFAu3vb4",
-    authDomain: "personal-czar-test.firebaseapp.com",
-    databaseURL: "https://personal-czar-test.firebaseio.com",
-    projectId: "personal-czar-test",
-    storageBucket: "",
-    messagingSenderId: "373637557988"
-  };
-  firebase.initializeApp(config);
 
-  	var database = firebase.database();
+///this section contain mostly firebase stuff
+
+	var config = {
+	    apiKey: "AIzaSyAqm2yQy7q4BqQshPYz_ImXRdqcFAu3vb4",
+	    authDomain: "personal-czar-test.firebaseapp.com",
+	    databaseURL: "https://personal-czar-test.firebaseio.com",
+	    projectId: "personal-czar-test",
+	    storageBucket: "",
+	    messagingSenderId: "373637557988"
+	  };
+	
+	firebase.initializeApp(config);
+
+	var database = firebase.database();
 
 
 	$(document).on("click", '#start', function(event) {
@@ -59,58 +63,62 @@ $(document).ready(function() {
 	   	  play8or1();
 	   	  var player = players[i];
 
-	   	  writeUserData(players);
+	   	  writeUserData(player);
 
 		};
 
-		function writeUserData(players) {
-		  database.ref(players[i]).push({
-			  	"cards": deal,
-			  	"username": players[i], 
+		function writeUserData(player) {
+		  database.ref(player).set({
+			  	"hand": deal,
+			  	"username": player, 
 				"czar": true,
 				"points": ''
 		  });
 
-
-
-		 //  database.ref("players").push({
-		 //  	"cards": deal,
-		 //  	"username": players[i], 
-			// "czar": true,
-			// "points": 
-		 //  });
 		}
 
+		updateCardsToFirebase(cardsFromSql, whiteCards);
 		updateToFirebaseTest();
+		pullCards();
 	});
 
-	
+	function updateCardsToFirebase(cardsFromSql, whiteCards) {
+		//temporary - pulling from my computer. 
+		database.ref().update({
+			"blackCards": cardsFromSql,
+			"whiteCards": whiteCards
+		})
+	}
 
 
 	function updateToFirebaseTest() {
 
-	  // var ref = new Firebase('https://gwah-199f8.firebaseio.com/parentofkeys')
+		var pleaseWork = "updateCzarPls";
+		database.ref("user1").update({ czar: "workpls" })
 
-	  // var query = ref.orderByChild('player').equalTo('user1');
+		}
 
-	  czar2 = database.ref("user1").child("czar");
+	function pullWhCards() {	
 
-	  czar2.on('value', function(snapshot) {
-	  	console.log(czar2);
-	  })
-
-
-	  // query.on('child_added', function(snapshot) {
-   //  	snapshot.ref().update({ czar: 'sofiaTest' });
-	  // });
-
+		database.ref().on("value", function(childSnapshot) {
+			whiteCards = childSnapshot.val().whiteCards;
+			   console.log(whiteCards);
+		});
 	};
 
-	console.log("I work!");
+	function pullBcCards() {	
 
-	// database.ref().on("child_added", function(childSnapshot) { 
-	// 	czar = childSnapshot.val().players.czar
-	// });
+		database.ref().on("value", function(childSnapshot) {
+			blackCards = childSnapshot.val().blackCards;
+			   console.log(blackCards);
+		});
+	};
+
+//////end FIREBASE functions and pushes
+
+
+
+////ONCLICK sectionc
 
 	//when a user selects a card...
 	$('.band').on('click', 'p', function() {
@@ -247,4 +255,4 @@ $(document).ready(function() {
 	// 		// userAwarded = **access user name here.  Same as last project?**
 
 	// }
-});
+	});
