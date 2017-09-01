@@ -2,6 +2,8 @@ $(document).ready(function() {
  
 	var players = ["user1", "user2", "user3", "user4"]
 
+	var user = "user1"
+
 	//needs to come from firebase, which comes from sql
 	var cardsFromSql = ["fun1", "fun2","fun3","fun4","fun5","fun6","fun7","fun8","fun9","fun10","fun11","fun12","fun13","fun14","fun15","fun16","fun17","fun18","fun19"];
 
@@ -58,7 +60,7 @@ $(document).ready(function() {
     //firebase is updated with white and black cards
       updateCardsToFirebase(cardsFromSql, whiteCardsFromSql);
     //firebase is updated with user information(user length is set to 4 to make this happen.  We will need to change it so that once 4 users are logged in, it auto starts)
-      updateUserInfoToFirebase();
+      pull8Cards(updateUserInfoToFirebase(players, hand));
 
     //2) screen is updated with info from firebase
 
@@ -84,18 +86,15 @@ $(document).ready(function() {
 		})
 	};
 
+	function pull8Cards(callback) {
+		database.ref().on("value", function(childSnapshot) {
+			whiteCards = childSnapshot.val().whiteCards;
+			hand = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
+		});
+	}
 
 	//I loop through users and deal them their cards and initial score
-	function updateUserInfoToFirebase() {
-
-		//pulls 8 cards for the user
-
-		database.ref().on("value", function(childSnapshot) {
-			for(var i = 0; i < 6; i++) {
-				hand.push(childSnapshot.val().whiteCards[i]);
-				console.log(hand);
-			}
-		});
+	function updateUserInfoToFirebase(players, hand) {
 
 		//loops through all the users and updates their info in firebase
 
@@ -137,8 +136,20 @@ $(document).ready(function() {
 		});
 	}
 
-});
+	function updateCardsWithSelected(cardSelected) {
+	$(".band").html("<div class='item-1 card'> <div class='tumb'></div> <article> <p class = 'card0'>" + cardSelected + "</p> </article> </a> </div>")
+	}
+/////on-clicks
 
+	$('.band').on('click', 'p', function() {
+			// their card info will be saved and 'display card' function will run(depending on conditions);
+		cardSelected = $(this).html();
+		updateCardsWithSelected(cardSelected);
+	});
+
+///
+
+});
 
 
       
