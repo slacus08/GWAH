@@ -1,5 +1,5 @@
 $(document).ready(function() {
- 
+
 	var players = ["user1", "user2", "user3", "user4"]
 
 	var user = "user1"
@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 	//needs to come from firebase, which comes from sql
 	var whiteCardsFromSql = ["WCfun1", "WCfun2","WCfun3","WCfun4","WCfun5","WCfun6","WCfun7","WCfun8","WCfun9","WCfun10","WCfun11","WCfun12","WCfun13","WCfun14","WCfun15","WCfun16","WCfun17","WCfun18","WCfun19"];
-	
+
 	//updates in firebase to true or false
 	var czar;
 
@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 	var hand = [];
 
-	//the function that is associated with this needs to come from firebase. 
+	//the function that is associated with this needs to come from firebase.
 
 
 	// Initialize Firebase
@@ -37,13 +37,25 @@ $(document).ready(function() {
 
 	var database = firebase.database();
 
+  database.ref().on("value", function(childSnapshot) {
+    var data = childSnapshot.val();
+    var usersCount;
+    console.log(data);
 
+    // users = data.users;
+    //
+    // if (data && data.users) {
+    //     usersCount = data.users.length;
+    //     $('playerCount').text(usersCount);
+    // }
+  });
 
+  var idCount = 0;
 
 	$(document).on("click", '#start', function(event) {
 
-	//onlick - game start. 
-	//1) firebase is updated with the following information: 
+	//onlick - game start.
+	//1) firebase is updated with the following information:
 	//    - white cards
 	//	  - black cards
 	//    - list of all users and their information (game starts when we reach 4 players)
@@ -51,35 +63,41 @@ $(document).ready(function() {
 	//    -     the hand they are dealt
 	//    -     everyone starts with 0 points
 	//2) screen should update with the correct card information depending on user (WC and BC)
-	//3) 
-
-
-      event.preventDefault();
+	//3)
+      // users.push(42);
+      //
+      //
+      // event.preventDefault();
 
     //1)
     //firebase is updated with white and black cards
-      updateCardsToFirebase(cardsFromSql, whiteCardsFromSql);
+      // updateCardsToFirebase(cardsFromSql, whiteCardsFromSql);
     //firebase is updated with user information(user length is set to 4 to make this happen.  We will need to change it so that once 4 users are logged in, it auto starts)
-      pull8Cards(updateUserInfoToFirebase(players, hand));
+      // pull8Cards(updateUserInfoToFirebase(players, hand));
 
     //2) screen is updated with info from firebase
 
     //black card is played
-      singleBlackCardPlayed();
+      // singleBlackCardPlayed();
 
     //white cards appear on screen
-      dealtHandAppearsOnScreen();
+      // dealtHandAppearsOnScreen();
 
 
+      // database.ref('users/' + idCount).set({
+			//   	name: 'geydffd'
+		  // });
+      //
+      // idCount++;
 	});
 
 
 
 ///////////////functions////////////////////////////////
 
-	//I push two arrays to firebase. 
+	//I push two arrays to firebase.
 	function updateCardsToFirebase(cardsFromSql, whiteCards) {
-		//temporary - pulling from my computer. 
+		//temporary - pulling from my computer.
 		database.ref().update({
 			"blackCards": cardsFromSql,
 			"whiteCards": whiteCardsFromSql
@@ -94,27 +112,26 @@ $(document).ready(function() {
 	}
 
 	//I loop through users and deal them their cards and initial score
-	function updateUserInfoToFirebase(players, hand) {
+	function updateUserInfoToFirebase() {
 
 		//loops through all the users and updates their info in firebase
 
-		for(var i = 0; i < players.length; i++) {
-		
-	   	  var player = players[i];
+		// for(var i = 0; i < players.length; i++) {
 
-	   	  writeUserData(player, hand);
+	 //   	  var player = players[i];
 
-		};
+	   	  writeUserData();
 
-		function writeUserData(player, hand) {
-		  database.ref(player).set({
-			  	"hand": hand,
-			  	"username": player, 
-				"points": 0
+		// };
+
+
+		function writeUserData() {
+		  database.ref('users/' + idCount).set({
+			  	"player": []
 		  });
 
 		};
-	}; 
+	};
 
 	function singleBlackCardPlayed() {
 
@@ -147,9 +164,14 @@ $(document).ready(function() {
 		updateCardsWithSelected(cardSelected);
 	});
 
+  $('#register-user').click(function() {
+    database.ref('people/' + idCount).set({
+        username: $('#username-input').val()
+    });
+
+    idCount++;
+  });
+
 ///
 
 });
-
-
-      
