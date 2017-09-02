@@ -29,60 +29,76 @@ $(document).ready(function() {
 
 	var database = firebase.database();
 
-  database.ref().on("value", function(childSnapshot) {
-    var data = childSnapshot.val();
-    var usersCount;
-    console.log(data);
+	  database.ref().on("value", function(childSnapshot) {
+	    var data = childSnapshot.val();
+	    var usersCount;
+	    console.log(data);
 
-    // users = data.users;
-    //
-    // if (data && data.users) {
-    //     usersCount = data.users.length;
-    //     $('playerCount').text(usersCount);
-    // }
-  });
+	    // users = data.users;
+	    //
+	    // if (data && data.users) {
+	    //     usersCount = data.users.length;
+	    //     $('playerCount').text(usersCount);
+	    // }
+	  });
 
   var idCount = 0;
 
-	$(document).on("click", '#start', function(event) {
+  /////on-clicks
 
-	//onlick - game start.
-	//1) firebase is updated with the following information:
-	//    - white cards
-	//	  - black cards
-	//    - list of all users and their information (game starts when we reach 4 players)
-	//    - 	czar (if set to user1, we can delete this)
-	//    -     the hand they are dealt
-	//    -     everyone starts with 0 points
-	//2) screen should update with the correct card information depending on user (WC and BC)
-	//3)
-      // users.push(42);
-      //
-      //
-      // event.preventDefault();
+	//registers the user in the database
 
-    //1)
-    //firebase is updated with white and black cards
-      updateCardsToFirebase(cardsFromSql, whiteCardsFromSql);
-    //firebase is updated with user information(user length is set to 4 to make this happen.  We will need to change it so that once 4 users are logged in, it auto starts)
-      // pull8Cards(updateUserInfoToFirebase(players, hand));
+  	$('#register-user').click(function() {
+	  	user = $('#username-input').val();
 
-    //2) screen is updated with info from firebase
+	    database.ref($('#username-input').val()).set({
+	        // "username": $('#username-input').val(),
+	        "hand": 0, 
+	        "points": 0
+	    });
 
-    //black card is played
-      singleBlackCardPlayed();
-      pull8Cards();
+	    // database.ref("count").update({
+	    // 	"idCount": idCount + 1
+	    // });
 
-    //white cards appear on screen
-      // dealtHandAppearsOnScreen();
+	 //    database.ref().on("value", function(childSnapshot) {
+		// 	console.log(idCount = childSnapshot.val().idCount);
+		// });
+
+	    updateCardsToFirebase(cardsFromSql, whiteCardsFromSql)
+
+	    database.ref().on("value", function(childSnapshot) {
+			whiteCards = childSnapshot.val().whiteCards;
+			hand = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
+		});
+
+		push8CardsFromLocal();
+
+	    // idCount++;
+
+		$("#user-count").html("Number Of Users: " + idCount);
 
 
-      // database.ref('users/' + idCount).set({
-			//   	name: 'geydffd'
-		  // });
-      //
-      // idCount++;
+	  });
+
+    $('.band').on('click', 'p', function() {
+			//grabs the selected card and displays it on the screen; Needs more functionality. 
+        cardSelected = $(this).html();
+        updateCardsWithSelected(cardSelected);
 	});
+
+  	//this deals cards to the screen
+
+  	$('#deal-user').click(function() {
+  		dealtHandAppearsOnScreen();
+	});
+
+
+///
+
+	// $(document).on("click", '#start', function(event) {
+
+	// });
 
 
 
@@ -97,14 +113,10 @@ $(document).ready(function() {
 		})
 	};
 
-	function pull8Cards() {
-		database.ref().on("value", function(childSnapshot) {
-			whiteCards = childSnapshot.val().whiteCards;
-			hand = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
-		});
+	function push8CardsFromLocal() {
 		database.ref().on("value", function(childSnapshot) {
 			database.ref().child(user).update({"hand": hand});
-		})
+		});
 	}
 
 
@@ -122,7 +134,7 @@ $(document).ready(function() {
 	function dealtHandAppearsOnScreen() {
 		database.ref().on("value", function(childSnapshot) {
 			for(var i = 0; i < 6; i++){
-				whiteCards = childSnapshot.val().user1.hand[i];
+				whiteCards = childSnapshot.val().user.hand[i];
 			   	$(".card" + i).html(whiteCards)
 			}
 		});
@@ -131,30 +143,7 @@ $(document).ready(function() {
 	function updateCardsWithSelected(cardSelected) {
 	$('.item-1').html("<div class='tumb'></div> <article> <p class = 'card0'>" + cardSelected + "</p> </article> </a>")
 	}
-/////on-clicks
-
-	$('.band').on('click', 'p', function() {
-			// their card info will be saved and 'display card' function will run(depending on conditions);
-		cardSelected = $(this).html();
-		updateCardsWithSelected(cardSelected);
-	});
-
-  	$('#register-user').click(function() {
-	  	user = $('#username-input').val();
-
-	    database.ref($('#username-input').val()).set({
-	        // "username": $('#username-input').val(),
-	        "hand": 0, 
-	        "points": 0
-	    });
-
-	    idCount++;
-	  });
-
-  	$('#deal-user').click(function() {
-  		console.log(database.ref().child(user).val("hand"));
-  	})
-
-///
 
 });
+
+
