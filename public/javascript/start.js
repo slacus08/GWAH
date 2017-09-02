@@ -57,13 +57,13 @@ $(document).ready(function() {
 	        "points": 0
 	    });
 
-	    // database.ref("count").update({
-	    // 	"idCount": idCount + 1
-	    // });
+	    database.ref("count").update({
+	    	"idCount": idCount + 1
+	    });
 
-	 //    database.ref().on("value", function(childSnapshot) {
-		// 	console.log(idCount = childSnapshot.val().idCount);
-		// });
+	    database.ref().on("value", function(childSnapshot) {
+			console.log(idCount = childSnapshot.val().idCount);
+		});
 
 	    updateCardsToFirebase(cardsFromSql, whiteCardsFromSql)
 
