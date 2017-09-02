@@ -57,12 +57,16 @@ $(document).ready(function() {
 	        "points": 0
 	    });
 
+	    //I push the initial count to firebase
+
 	    database.ref("count").update({
 	    	"idCount": idCount + 1
 	    });
 
+	    //I pull the new count from firebase
+
 	    database.ref().on("value", function(childSnapshot) {
-			console.log(idCount = childSnapshot.val().idCount);
+			console.log(idCount = childSnapshot.val().count.idCount);
 		});
 
 	    updateCardsToFirebase(cardsFromSql, whiteCardsFromSql)
