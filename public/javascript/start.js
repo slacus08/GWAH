@@ -1,20 +1,12 @@
 $(document).ready(function() {
 
-	var players = ["user1", "user2", "user3", "user4"]
-
-	var user = "user1"
+	var user;
 
 	//needs to come from firebase, which comes from sql
 	var cardsFromSql = ["fun1", "fun2","fun3","fun4","fun5","fun6","fun7","fun8","fun9","fun10","fun11","fun12","fun13","fun14","fun15","fun16","fun17","fun18","fun19"];
 
 	//needs to come from firebase, which comes from sql
 	var whiteCardsFromSql = ["WCfun1", "WCfun2","WCfun3","WCfun4","WCfun5","WCfun6","WCfun7","WCfun8","WCfun9","WCfun10","WCfun11","WCfun12","WCfun13","WCfun14","WCfun15","WCfun16","WCfun17","WCfun18","WCfun19"];
-
-	//updates in firebase to true or false
-	var czar;
-
-	//once a user has played czar, this need to update in FIREBASE
-	var czarPlayed= [];
 
 	//
 	var playerIndex;
@@ -71,14 +63,15 @@ $(document).ready(function() {
 
     //1)
     //firebase is updated with white and black cards
-      // updateCardsToFirebase(cardsFromSql, whiteCardsFromSql);
+      updateCardsToFirebase(cardsFromSql, whiteCardsFromSql);
     //firebase is updated with user information(user length is set to 4 to make this happen.  We will need to change it so that once 4 users are logged in, it auto starts)
       // pull8Cards(updateUserInfoToFirebase(players, hand));
 
     //2) screen is updated with info from firebase
 
     //black card is played
-      // singleBlackCardPlayed();
+      singleBlackCardPlayed();
+      pull8Cards();
 
     //white cards appear on screen
       // dealtHandAppearsOnScreen();
@@ -104,34 +97,16 @@ $(document).ready(function() {
 		})
 	};
 
-	function pull8Cards(callback) {
+	function pull8Cards() {
 		database.ref().on("value", function(childSnapshot) {
 			whiteCards = childSnapshot.val().whiteCards;
 			hand = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
 		});
+		database.ref().on("value", function(childSnapshot) {
+			database.ref().child(user).update({"hand": hand});
+		})
 	}
 
-	//I loop through users and deal them their cards and initial score
-	function updateUserInfoToFirebase() {
-
-		//loops through all the users and updates their info in firebase
-
-		// for(var i = 0; i < players.length; i++) {
-
-	 //   	  var player = players[i];
-
-	   	  writeUserData();
-
-		// };
-
-
-		function writeUserData() {
-		  database.ref('users/' + idCount).set({
-			  	"player": []
-		  });
-
-		};
-	};
 
 	function singleBlackCardPlayed() {
 
@@ -164,13 +139,21 @@ $(document).ready(function() {
 		updateCardsWithSelected(cardSelected);
 	});
 
-  $('#register-user').click(function() {
-    database.ref('people/' + idCount).set({
-        username: $('#username-input').val()
-    });
+  	$('#register-user').click(function() {
+	  	user = $('#username-input').val();
 
-    idCount++;
-  });
+	    database.ref($('#username-input').val()).set({
+	        // "username": $('#username-input').val(),
+	        "hand": 0, 
+	        "points": 0
+	    });
+
+	    idCount++;
+	  });
+
+  	$('#deal-user').click(function() {
+  		console.log(database.ref().child(user).val("hand"));
+  	})
 
 ///
 
