@@ -46,12 +46,16 @@ body {
 
 #login {
     margin: 0 auto;
-    width: 60%;
+    width: 30%;
+    background: #fff;
+    padding: 2em;
 }
 
 #register{
     margin: 0 auto;
-    width: 60%;
+    width: 30%;
+    background: #fff;
+    padding: 2em;
 }
 
 .jumbotron {
