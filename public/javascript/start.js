@@ -53,11 +53,13 @@ $(document).ready(function() {
 
   		//the first person who logs in becomes czar.
 
-	    //I pull the new count from firebase
+	    //I pull the new count from firebase(we should consider changing this to a child added so it's always updating)
 
 	    database.ref().on("value", function(childSnapshot) {
 			idCount = childSnapshot.val().count.idCount;
 		});
+
+		//I add 1 to the new count.
 
 		database.ref("count").update({
 	    	"idCount": idCount + 1
@@ -66,7 +68,7 @@ $(document).ready(function() {
 	    //I set the user name
 	  	user = $('#username-input').val();
 
-	  	//I set the initial table in fire. 
+	  	//I set the initial table in firebase. 
 	    database.ref($('#username-input').val()).set({
 	     // "username": $('#username-input').val(),
 	        "hand": 0, 
@@ -159,12 +161,10 @@ $(document).ready(function() {
 	};
 
 	function dealtHandAppearsOnScreen() {
-		database.ref().on("value", function(childSnapshot) {
-			for(var i = 0; i < 6; i++){
-				whiteCards = childSnapshot.val().user.hand[i];
-			   	$(".card" + i).html(whiteCards)
-			}
-		});
+		for(var i = 0; i < 6; i++)
+		{
+			$(".card" + i).html(hand[i]);
+		}
 	}
 
 	function updateCardsWithSelected(cardSelected) {
