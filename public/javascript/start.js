@@ -32,9 +32,9 @@ $(document).ready(function() {
 	var database = firebase.database();
 
 	database.ref().on("value", function(childSnapshot) {
-	    var data = childSnapshot.val();
-		var databaseData = [data];
-		console.log(databaseData)
+	    var data = childSnapshot.child();
+		// var databaseData = data;
+		console.log(data);
 	});
 
 	var idCount = 0;
@@ -55,13 +55,7 @@ $(document).ready(function() {
 
   		if(!user) {
 
-	  		//the first person who logs in becomes czar.
 
-		    //I pull the new count from firebase(we should consider changing this to a child added so it's always updating)
-
-			//I add 1 to the new count.
-
-		    //I set the user name
 		  	user = $('#username-input').val();
 
 		  	if(idCount >= 1) {
@@ -117,21 +111,22 @@ $(document).ready(function() {
 
   	$('#start').click(function() {
 
- //  	database.ref('count').on("value", function(snapshot) {
-	//   if (snapshot.exists()) {
-	// 	idCount = snapshot.val().idCount;
-	// 	$("#user-count").html("Number Of Users: " + idCount)
-	//   } 
-	// });
-
   		if(idCount >= 4 && czar == true){
   			alert("The game has started!")
   			singleBlackCardPlayed();
+
+  	// 		database.ref().on("value", function(childSnapshot) {
+			// 	blackCard = database.ref().child().val("czarCardPlayed")
+			// 	$("#play2").html(blackCard)
+			// });
+
   		} else if (idCount >= 4  || idCount < 4 && czar == false) {
   			alert("Only the czar may draw a card!");
   		} else if (idCount < 4 && czar == true) {
   			alert("Please wait for the right number of players!")
   		}
+
+
 	});
 
 	// $(document).on("click", '#start', function(event) {
