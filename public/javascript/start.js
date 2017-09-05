@@ -16,20 +16,21 @@ $(document).ready(function() {
 	//the function that is associated with this needs to come from firebase.
 
 
-	// Initialize Firebase
-	  var config = {
-	    apiKey: "AIzaSyDSSNV1gjwiaCVLTvKSZwgW5wNoSZ6HMOs",
-	    authDomain: "gwah-199f8.firebaseapp.com",
-	    databaseURL: "https://gwah-199f8.firebaseio.com",
-	    projectId: "gwah-199f8",
-	    storageBucket: "gwah-199f8.appspot.com",
-	    messagingSenderId: "817131336094"
-	  };
-	  firebase.initializeApp(config);
+
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDSSNV1gjwiaCVLTvKSZwgW5wNoSZ6HMOs",
+    authDomain: "personal-czar-test.firebaseapp.com",
+    databaseURL: "https://personal-czar-test.firebaseio.com",
+    projectId: "personal-czar-test",
+    storageBucket: "personal-czar-test.appspot.com",
+    messagingSenderId: "373637557988"
+  };
+  firebase.initializeApp(config);
 
 	var database = firebase.database();
 
-	  database.ref().on("value", function(childSnapshot) {
+	  database.ref().on("child_added", function(childSnapshot) {
 	    var data = childSnapshot.val();
 	    var usersCount;
 	    console.log(data);
@@ -42,32 +43,43 @@ $(document).ready(function() {
 	    // }
 	  });
 
-  var idCount = 0;
+	  var idCount = 0;
 
-  /////on-clicks
+	  /////on-clicks
 
 	//registers the user in the database
 
   	$('#register-user').click(function() {
-	  	user = $('#username-input').val();
 
-	    database.ref($('#username-input').val()).set({
-	        // "username": $('#username-input').val(),
-	        "hand": 0, 
-	        "points": 0
-	    });
-
-	    //I push the initial count to firebase
-
-	    database.ref("count").update({
-	    	"idCount": idCount + 1
-	    });
+  		//the first person who logs in becomes czar.
 
 	    //I pull the new count from firebase
 
 	    database.ref().on("value", function(childSnapshot) {
-			console.log(idCount = childSnapshot.val().count.idCount);
+			idCount = childSnapshot.val().count.idCount;
 		});
+
+		database.ref("count").update({
+	    	"idCount": idCount + 1
+	    });
+
+	    //I set the user name
+	  	user = $('#username-input').val();
+
+	  	//I set the initial table in fire. 
+	    database.ref($('#username-input').val()).set({
+	     // "username": $('#username-input').val(),
+	        "hand": 0, 
+	        "points": 0, 
+	        "czar": true
+	    });
+
+	    ////I check to see if there is a player.  If there is, then I change czar to false. 
+	    if(idCount > 1) {
+			database.ref().on("value", function(childSnapshot) {
+				database.ref().child(user).update({"czar": false});
+			});	
+		}
 
 	    updateCardsToFirebase(cardsFromSql, whiteCardsFromSql)
 
@@ -78,10 +90,7 @@ $(document).ready(function() {
 
 		push8CardsFromLocal();
 
-	    // idCount++;
-
 		$("#user-count").html("Number Of Users: " + idCount);
-
 
 	  });
 
@@ -97,6 +106,20 @@ $(document).ready(function() {
   		dealtHandAppearsOnScreen();
 	});
 
+  	//we need to set it up so only the czar can pick a card
+
+  	//we need to set it up so that a user is awarded a point after the czar selects their card. 
+  // 	$('.band').on('click', 'p', function() {
+  // 		cardSelected = $(this).html();
+	 //  	if(czar == true) {
+	 //  		$(".card" + i).html("I am displaying succesfully")///how do we want to display this?//)
+	 //  			//assign points to user
+
+	 //  			//call from firebase the user who's hand has the car
+		// } else {
+		// 	alert("You aren't the czar! You don't get to pick a card...")
+		// };
+  // 	});
 
 ///
 
