@@ -31,9 +31,10 @@ $(document).ready(function() {
 
 	var database = firebase.database();
 
-	database.ref().on("child_added", function(childSnapshot) {
+	database.ref().on("value", function(childSnapshot) {
 	    var data = childSnapshot.val();
-		console.log(data);
+		var databaseData = [data];
+		console.log(databaseData)
 	});
 
 	var idCount = 0;
@@ -76,7 +77,8 @@ $(document).ready(function() {
 			} else {
 
 				database.ref($('#username-input').val()).set({
-			        "czarSelected": 0, 
+			        "czarCardPlayed": 0, 
+			        "czarSelected": 0,
 			        "czar": true
 			    });
 
@@ -114,6 +116,14 @@ $(document).ready(function() {
 
 
   	$('#start').click(function() {
+
+ //  	database.ref('count').on("value", function(snapshot) {
+	//   if (snapshot.exists()) {
+	// 	idCount = snapshot.val().idCount;
+	// 	$("#user-count").html("Number Of Users: " + idCount)
+	//   } 
+	// });
+
   		if(idCount >= 4 && czar == true){
   			alert("The game has started!")
   			singleBlackCardPlayed();
@@ -155,8 +165,9 @@ $(document).ready(function() {
 		var indexOfCard =  Math.floor(Math.random() * (17 - 0 + 1)) + 0
 
 		database.ref().once("value", function(childSnapshot) {
-			blackCards = childSnapshot.val().blackCards[indexOfCard];
-				$("#play2").html(blackCards)
+			blackCard = childSnapshot.val().blackCards[indexOfCard];
+			$("#play2").html(blackCard)
+			database.ref().child(user).update({"czarCardPlayed": blackCard});
 		});
 
 	};
