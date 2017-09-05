@@ -13,27 +13,27 @@ $(document).ready(function() {
 
 	var hand = [];
 
+	var czar = true;
+
 	//the function that is associated with this needs to come from firebase.
 
-
-
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyDSSNV1gjwiaCVLTvKSZwgW5wNoSZ6HMOs",
-    authDomain: "personal-czar-test.firebaseapp.com",
-    databaseURL: "https://personal-czar-test.firebaseio.com",
-    projectId: "personal-czar-test",
-    storageBucket: "personal-czar-test.appspot.com",
-    messagingSenderId: "373637557988"
-  };
-  firebase.initializeApp(config);
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyDSSNV1gjwiaCVLTvKSZwgW5wNoSZ6HMOs",
+	    authDomain: "gwah-199f8.firebaseapp.com",
+	    databaseURL: "https://gwah-199f8.firebaseio.com",
+	    projectId: "gwah-199f8",
+	    storageBucket: "gwah-199f8.appspot.com",
+	    messagingSenderId: "817131336094"
+	  };
+	  firebase.initializeApp(config);
 
 	var database = firebase.database();
 
 	  database.ref().on("child_added", function(childSnapshot) {
 	    var data = childSnapshot.val();
 	    var usersCount;
-	    console.log(data);
+	    // console.log(data);
 
 	    // users = data.users;
 	    //
@@ -80,17 +80,19 @@ $(document).ready(function() {
 	    if(idCount > 1) {
 			database.ref().on("value", function(childSnapshot) {
 				database.ref().child(user).update({"czar": false});
-			});	
+			});
+
+			czar = false;	
 		}
 
 	    updateCardsToFirebase(cardsFromSql, whiteCardsFromSql)
 
-	    database.ref().on("value", function(childSnapshot) {
+	    database.ref().once("value", function(childSnapshot) {
 			whiteCards = childSnapshot.val().whiteCards;
 			hand = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
 		});
 
-		push8CardsFromLocal();
+		push6CardsFromLocal(hand);
 
 		$("#user-count").html("Number Of Users: " + idCount);
 
@@ -108,22 +110,6 @@ $(document).ready(function() {
   		dealtHandAppearsOnScreen();
 	});
 
-  	//we need to set it up so only the czar can pick a card
-
-  	//we need to set it up so that a user is awarded a point after the czar selects their card. 
-  // 	$('.band').on('click', 'p', function() {
-  // 		cardSelected = $(this).html();
-	 //  	if(czar == true) {
-	 //  		$(".card" + i).html("I am displaying succesfully")///how do we want to display this?//)
-	 //  			//assign points to user
-
-	 //  			//call from firebase the user who's hand has the car
-		// } else {
-		// 	alert("You aren't the czar! You don't get to pick a card...")
-		// };
-  // 	});
-
-///
 
 	// $(document).on("click", '#start', function(event) {
 
@@ -142,8 +128,8 @@ $(document).ready(function() {
 		})
 	};
 
-	function push8CardsFromLocal() {
-		database.ref().on("value", function(childSnapshot) {
+	function push6CardsFromLocal(hand) {
+		database.ref().once("value", function(childSnapshot) {
 			database.ref().child(user).update({"hand": hand});
 		});
 	}
@@ -153,7 +139,7 @@ $(document).ready(function() {
 
 		var indexOfCard =  Math.floor(Math.random() * (17 - 0 + 1)) + 0
 
-		database.ref().on("value", function(childSnapshot) {
+		database.ref().once("value", function(childSnapshot) {
 			blackCards = childSnapshot.val().blackCards[indexOfCard];
 				$("#play2").html(blackCards)
 		});
@@ -161,15 +147,30 @@ $(document).ready(function() {
 	};
 
 	function dealtHandAppearsOnScreen() {
-		for(var i = 0; i < 6; i++)
-		{
+		for(var i = 0; i < 6; i++) {
 			$(".card" + i).html(hand[i]);
 		}
-	}
+	};
 
 	function updateCardsWithSelected(cardSelected) {
-	$('.item-1').html("<div class='tumb'></div> <article> <p class = 'card0'>" + cardSelected + "</p> </article> </a>")
-	}
+		//first, determine if the user is czar.
+		// if(czar == true) {
+			//award point - display on screen - 
+		// } else { 
+
+			if(hand.length === 6)  {
+				$('.item-1').html("<div class='tumb'></div> <article> <p class = 'card0'>" + cardSelected + "</p> </article> </a>");
+				var index = hand.indexOf(cardSelected);
+				hand.splice(index, 1);
+				console.log(hand);
+				push6CardsFromLocal(hand);	
+			} else {
+				alert("You have already dealt your card! You need to wait...");
+			}
+			//if not czar, update the screen with the selected card if the user has not played their card!
+			//ne
+		// }
+	};
 
 });
 
