@@ -37,6 +37,10 @@ $(document).ready(function() {
 		console.log(data);
 	});
 
+	// Find all dinosaurs whose height is exactly 25 meters.
+	var ref = firebase.database().ref();
+
+
 	var idCount = 0;
 
 	database.ref('count').on("value", function(snapshot) {
@@ -44,6 +48,22 @@ $(document).ready(function() {
 		idCount = snapshot.val().idCount;
 		$("#user-count").html("Number Of Users: " + idCount)
 	  } 
+	});
+
+
+	//event listener for 
+
+	var firebaseUser;
+
+	ref.orderByChild("czar").equalTo(true).on("child_added", function(snapshot) {
+	  	firebaseUser = snapshot.key;
+	  	console.log(firebaseUser);
+
+	  	database.ref(firebaseUser).on("value", function(childSnapshot) {
+			blackCard = childSnapshot.val().czarCardPlayed;
+			console.log(blackCard);
+			$("#play2").html(blackCard);
+		});
 	});
 
 	$("#user-count").html("Number Of Users: " + idCount)
@@ -98,6 +118,16 @@ $(document).ready(function() {
   	});
 
     $('.band').on('click', 'p', function() {
+    	
+    	// if(czar) {
+    	// 	//check to make sure that all users have played their hand
+    	// 	//if all users have played their hand, allow the czar to select a card
+    	// 	//find the user associated with that card, then update to the screen
+    	// } else {
+    	// 	//check to see if they have already played their card
+    	// 	//if they haven't, allow them
+    	// 	//if they have, alert them to wait for all users to play their hand.  
+    	// }
         cardSelected = $(this).html();
         updateCardsWithSelected(cardSelected);
 	});
@@ -114,12 +144,6 @@ $(document).ready(function() {
   		if(idCount >= 4 && czar == true){
   			alert("The game has started!")
   			singleBlackCardPlayed();
-
-  	// 		database.ref().on("value", function(childSnapshot) {
-			// 	blackCard = database.ref().child().val("czarCardPlayed")
-			// 	$("#play2").html(blackCard)
-			// });
-
   		} else if (idCount >= 4  || idCount < 4 && czar == false) {
   			alert("Only the czar may draw a card!");
   		} else if (idCount < 4 && czar == true) {
@@ -161,10 +185,8 @@ $(document).ready(function() {
 
 		database.ref().once("value", function(childSnapshot) {
 			blackCard = childSnapshot.val().blackCards[indexOfCard];
-			$("#play2").html(blackCard)
 			database.ref().child(user).update({"czarCardPlayed": blackCard});
 		});
-
 	};
 
 	function dealtHandAppearsOnScreen() {
