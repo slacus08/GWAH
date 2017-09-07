@@ -8,24 +8,27 @@
     "start": "node server.js"
   },
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "git",
+    "url": "git+https://github.com/slacus08/GWAH.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/slacus08/GWAH/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/slacus08/GWAH#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
-    "dotenv": "^4.0.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.5",
+    "express-validator": "^3.2.1",
     "mysql": "^2.14.1",
-    "mysql2": "^1.4.2",
+    "mysql2": "^1.4.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "sequelize": "^4.7.5"
