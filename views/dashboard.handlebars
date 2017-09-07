@@ -2,6 +2,19 @@
 
 
 <div class="support-grid"></div>
+<header class="col-md-3">
+  <h1>Game Players</h1>
+  {{#if user}}
+  <ul>
+  <li>{{email}}</li>
+  </ul>
+  {{else}}
+    <p class="alert alert-danger"><a href="login">Login</a></p>
+  {{/if}}
+</header>
+
+
+<div class="col-md-9">
 
 <div class="band">
     <div class="item-1 card">
@@ -48,4 +61,5 @@
           </article>
     </div>
   </div>
+</div>
 </div>
