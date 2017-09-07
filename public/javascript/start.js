@@ -15,7 +15,6 @@ $(document).ready(function() {
 
 	var czar = false;
 
-	//the function that is associated with this needs to come from firebase.
 
 	  // Initialize Firebase
 	var config = {
@@ -42,6 +41,8 @@ $(document).ready(function() {
 
 	var idCount = 0;
 
+	//event listener for ID Count
+
 	database.ref('count').on("value", function(snapshot) {
 	  if (snapshot.exists()) {
 		idCount = snapshot.val().idCount;
@@ -50,19 +51,33 @@ $(document).ready(function() {
 	});
 
 
-	//event listener for czar
+	//event listener for czar and for once the czar has selected his card. 
 
 	var firebaseCzar;
+	var czarSelected;
+	var czarCardPlayed;
 
 	ref.orderByChild("czar").equalTo(true).on("child_added", function(snapshot) {
+
 	  	firebaseCzar = snapshot.key;
 	  	console.log(firebaseCzar);
 
 	  	database.ref(firebaseCzar).on("value", function(childSnapshot) {
-			blackCard = childSnapshot.val().czarCardPlayed;
-			console.log(blackCard);
-			$("#play2").html(blackCard);
+			czarCardPlayed = childSnapshot.val().czarCardPlayed;
+			if (czarCardPlayed != 0) {
+				$("#play2").html(czarCardPlayed);
+			};
 		});
+
+		database.ref(firebaseCzar).on("value", function(childSnapshot) {
+			czarSelected = childSnapshot.val().czarSelected;
+			if(czarSelected != 0) {
+				console.log(czarSelected);
+				$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'>" + czarCardPlayed + "</p></article></div>");
+				$('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article> <p>" + czarSelected + "</p></article></div>");
+			}
+		});
+	
 	});
 
 	//event listener for once all players have played their card
@@ -72,28 +87,36 @@ $(document).ready(function() {
 				var query = firebase.database().ref("cardsPlayed").orderByKey();
 					query.once("value")
 							.then(function(snapshot) {
-							  	$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'> just random text </p></article></div>");
+							  	$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'>" + czarCardPlayed + "</p></article></div>");
 							    
 							    snapshot.forEach(function(childSnapshot) {
 							      var childData = childSnapshot.val().card;
 							      console.log(childData);
-								 $('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article>" + childData + "</p></article></div>");
+								 $('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article><p>" + childData + "</p></article></div>");
 						  		});
 							});
 			}	
 		});
 
+	//starts the game over again
+	
+	// if(czarSelected && czarCardPlayed) {
+		//update the screen with the user who received the point.
+		//possibly push user information and  
+		//display a button that allows all users to play again
+		//if all users decide to play again, restart the game by pushing everything new to firebase. 
+
+	// }	  
 
 
 	$("#user-count").html("Number Of Users: " + idCount)
 
 
-	//registers the user in the database
+	//registers the user firebase. Modify this to capture Lebeza's data. 
 
   	$('#register-user').click(function() {
 
   		if(!user) {
-
 
 		  	user = $('#username-input').val();
 
@@ -107,6 +130,22 @@ $(document).ready(function() {
 			        "czar": false
 			    });
 
+			    database.ref("count").update({
+					"idCount": idCount + 1
+				});
+
+				database.ref().once("value", function(childSnapshot) {
+					whiteCards = childSnapshot.val().whiteCards;
+					hand = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
+					whiteCards.splice(0,6)
+					database.ref().update({"whiteCards": whiteCards});
+				});
+
+				push6CardsFromLocal(hand);
+
+				dealtHandAppearsOnScreen();
+
+
 			} else {
 
 				database.ref($('#username-input').val()).set({
@@ -116,20 +155,13 @@ $(document).ready(function() {
 			    });
 
 			    czar = true;
+
+			    updateCardsToFirebase(cardsFromSql, whiteCardsFromSql)
+
+			    database.ref("count").update({
+					"idCount": idCount + 1
+				});
 			};
-
-			database.ref("count").update({
-		    	"idCount": idCount + 1
-		    });
-
-		    updateCardsToFirebase(cardsFromSql, whiteCardsFromSql)
-
-		    database.ref().once("value", function(childSnapshot) {
-				whiteCards = childSnapshot.val().whiteCards;
-				hand = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
-			});
-
-			push6CardsFromLocal(hand);
 
 		} else {
 		  	alert("you have already joined the game");
@@ -165,6 +197,8 @@ $(document).ready(function() {
 
 			//updated the Czar's Selected Card and The Czar's Card to the Screen. 
 
+			//need to update to all screens.  
+
 			database.ref("user1").on("value", function(snapshot) {
 				czarCardPlayed = snapshot.val().czarCardPlayed;
 				czarSelected = snapshot.val().czarSelected;
@@ -172,7 +206,7 @@ $(document).ready(function() {
 			});
 
 			$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'>" + czarCardPlayed + "</p></article></div>");
-			$('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article><p>" + czarSelected + "</p></article></div>");
+			$('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article> <p>" + czarSelected + "</p></article></div>");
 
 
     	} else {
@@ -192,12 +226,16 @@ $(document).ready(function() {
 			  return userHasntPlayed = snapshot.key;
 			}); 
 
+			database.ref("user1").on("value", function(snapshot) {
+				czarCardPlayed = snapshot.val().czarCardPlayed;
+			});
+
 			if (typeof userHasntPlayed == 'string') {
 				var index = hand.indexOf(cardSelected);
 				hand.splice(index, 1);
 				push6CardsFromLocal(hand);
-				$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'> just random text </p></article></div>")
-				$('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article>" + cardSelected + "</p></article></div>");
+				$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'>" + czarCardPlayed+ "</p></article></div>")
+				$('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article> <p>" + cardSelected + "</p></article></div>");
 			} else if (userHasntPlayed == false) {
 				database.ref("AllUsersPlayed").push({
 					"played": true,
@@ -206,21 +244,21 @@ $(document).ready(function() {
 				var query = firebase.database().ref("cardsPlayed").orderByKey();
 					query.once("value")
 					  .then(function(snapshot) {
-					  	$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'> just random text </p></article></div>");
+					  	$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'>" + czarCardPlayed + "</p></article></div>");
 					    
 					    snapshot.forEach(function(childSnapshot) {
 					      var childData = childSnapshot.val().card;
 					      console.log(childData);
-						 $('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article>" + childData + "</p></article></div>");
+						 $('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article> <p>" + childData + "</p></article></div>");
 					  });
 					});
 				}	
 			};
 	    });
 
-  	$('#deal-user').click(function() {
-  		dealtHandAppearsOnScreen();
-	});
+ //  	$('#deal-user').click(function() {
+ //  		dealtHandAppearsOnScreen();
+	// });
 
 
   	$('#start').click(function() {
@@ -274,34 +312,6 @@ $(document).ready(function() {
 			$(".card" + i).html(hand[i]);
 		}
 	};
-
-	// function updateCardsWithSelected(cardSelected, userHasntPlayed) {
-	// 	if(typeof userHasntPlayed == 'string') {
-	// 		var index = hand.indexOf(cardSelected);
-	// 		hand.splice(index, 1);
-	// 		push6CardsFromLocal(hand);
-	// 		$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'> just random text </p></article></div>")
-	// 		$('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article>" + cardSelected + "</p></article></div>");
-	// 	} else if (userHasntPlayed == false) {
-	// 		var query = firebase.database().ref("cardsPlayed").orderByKey();
-	// 			query.on("value")
-	// 			  .then(function(snapshot) {
-	// 			  	$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'> just random text </p></article></div>");
-	// 			    snapshot.forEach(function(childSnapshot) {
-	// 			      var childData = childSnapshot.val().card;
-	// 			      console.log(childData);
-	// 				 $('.band').append("<div class='item-1 card'> <div class='thumb'></div> <article>" + childData + "</p></article></div>");
-	// 			  });
-	// 			});
-	// 	}	
-	// };
-
-	// function checkToSeeIfAllUsersHavePlayed() {
-	// 	var userHasntPlayed = false;
-	// 	ref.orderByChild("selected").equalTo(0).on("child_added", function(snapshot) {
-	// 	  return userHasntPlayed = snapshot.key;
-	// 	});
-	// };
 
 });
 
