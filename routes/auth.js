@@ -27,9 +27,7 @@ app.post('/signup', passport.authenticate('local-signup',{
     ));
 
 app.get('/dashboard', isLoggedIn, function(req, res) {
-    res.render('dashboard.handlebars', {
-        user : req.user
-            });
+    res.render('dashboard.handlebars', {username:req.user.username});
         });
 
 
