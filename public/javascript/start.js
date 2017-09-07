@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
 	var user = "";
 
 	//needs to come from firebase, which comes from sql
@@ -161,6 +162,10 @@ $(document).ready(function() {
 			    database.ref("count").update({
 					"idCount": idCount + 1
 				});
+
+			    $('.register').append("<button type='submit' class='btn btn-default' id='start'> Czar Card </button>")
+				$('.band').html("<div class='item-7 card'> <div class='thumb'></div> <article> <p id='play2'> When Player Count Reaches 4, Please Play Your Card! </p></article></div>")
+
 			};
 
 		} else {
@@ -260,8 +265,7 @@ $(document).ready(function() {
  //  		dealtHandAppearsOnScreen();
 	// });
 
-
-  	$('#start').click(function() {
+  	$('.register').on('click', '#start', function() {
 
   		if(idCount >= 4 && czar == true){
   			alert("The game has started!")
