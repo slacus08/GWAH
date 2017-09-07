@@ -1,5 +1,5 @@
 module.exports = function(sequelize, Sequelize) {
-    var BlackCard = sequelize.define('blackCard', {
+    var WhiteCards = sequelize.define('whiteCards', {
         id: {
             autoIncrement: true,
             primaryKey: true,
@@ -11,6 +11,6 @@ module.exports = function(sequelize, Sequelize) {
             notEmpty: true
         }
     });
-    // BlackCard.sync();
-return BlackCard;
+
+return WhiteCards;
 }

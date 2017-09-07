@@ -31,3 +31,22 @@ module.exports = function(sequelize, Sequelize) {
     });
     return User;
 }
+//
+// module.exports = function(sequelize, Sequelize){
+//   var Tally = sequelize.define ('tally', {
+//     id: {
+//       autoIncrement: true,
+//       primaryKey: true,
+//       type: Sequelize.INTEGER
+//     },
+//     wins: {
+//       type: Sequelize.INTEGER,
+//       allowNull: false
+//     }
+//     losses: {
+//       type: Sequelize.INTEGER,
+//       allowNull: false
+//     }
+//   });
+//   return Tally;
+// }

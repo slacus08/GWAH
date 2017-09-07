@@ -1,83 +1,62 @@
-DROP DATABASE IF EXISTS sequelize_passport;
 CREATE database sequelize_passport;
 
 USE sequelize_passport;
 
-
-DROP TABLE IF EXISTS `black_cards`;
-
-CREATE TABLE `black_cards` (
+CREATE TABLE `blackCards` (
   `id` INT(9) NOT NULL AUTO_INCREMENT,
   `text` VARCHAR(255) NOT NULL,
-  `draw` smallint(6) NOT NULL DEFAULT '0',
-  `pick` smallint(6) NOT NULL DEFAULT '1',
-  `card_set_id` int(9) NOT NULL,
+
   PRIMARY KEY (`id`)
-)
+);
 
-INSERT INTO `black_cards` (`id`, `text`, `draw`, `pick`, `card_set_id`)
+INSERT INTO `blackCards` (`id`, `text`)
 VALUES
-  (1,'In the seventh circle of Hell, sinners must endure ____ for all eternity.',0,1,4),
-  (2,'After months of practice with ____, I think I\'m finally ready for ____.',0,2,4),
-  (3,'The blind date was going horribly until we discovered our shared interest in ____.',0,1,4),
-  (4,'____. Awesome in theory, kind of a mess in practice.',0,1,4),
-  (5,'With enough time and pressure, ____ will turn into ____.',0,2,4),
-  (6,'I\'m not like the rest of you. I\'m too rich and busy for ____.',0,1,4),
-  (7,'And what did <i>you</i> bring for show and tell?',0,1,4),
-  (8,'Having problems with ____? Try ____!',0,2,4),
-  (9,'As part of his contract, Prince won\'t perform without ____ in his dressing room.',0,1,4),
-  (10,'How did I lose my virginity?',0,1,1),
-  (11,'Here is the church<br>Here is the steeple<br>Open the doors<br>And there is ____.',0,1,1),
-  (12,'During his childhood, Salvador Dalí produced hundreds of paintings of ____.',0,1,1),
-  (13,'In 1,000 years, when paper money is a distant memory, how will we pay for goods and services?',0,1,1),
-  (14,'What don\'t you want to find in your Kung Pao chicken?',0,1,1),
-  (15,'The Smithsonian Museum of Natural History has just opened an exhibit on ____.',0,1,1);
+  (1,'In the seventh circle of Hell, sinners must endure ____ for all eternity.'),
+  (2,'After months of practice with ____, I think I\'m finally ready for ____.'),
+  (3,'The blind date was going horribly until we discovered our shared interest in ____.'),
+  (4,'____. Awesome in theory, kind of a mess in practice.'),
+  (5,'With enough time and pressure, ____ will turn into ____.'),
+  (6,'I\'m not like the rest of you. I\'m too rich and busy for ____.'),
+  (7,'And what did <i>you</i> bring for show and tell?'),
+  (8,'Having problems with ____? Try ____!'),
+  (9,'As part of his contract, Prince won\'t perform without ____ in his dressing room.'),
+  (10,'How did I lose my virginity?'),
+  (11,'Here is the church<br>Here is the steeple<br>Open the doors<br>And there is ____.'),
+  (12,'During his childhood, Salvador Dalí produced hundreds of paintings of ____.'),
+  (13,'In 1,000 years, when paper money is a distant memory, how will we pay for goods and services?'),
+  (14,'What don\'t you want to find in your Kung Pao chicken?'),
+  (15,'The Smithsonian Museum of Natural History has just opened an exhibit on ____.');
 
-DROP TABLE IF EXISTS `white_cards`;
-
-CREATE TABLE `white_cards` (
-  `id` int(9) NOT NULL AUTO_INCREMENT,
-  `text` varchar(255) NOT NULL,
-  `card_set_id` int(9) NOT NULL,
+CREATE TABLE `whiteCards` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `text` VARCHAR NOT NULL,
   PRIMARY KEY (`id`)
-)
+);
 
-INSERT INTO `white_cards` (`id`, `text`, `card_set_id`)
+INSERT INTO `whiteCards` (`id`, `text`)
 VALUES
-(1,'Being fat and stupid.',1),
-(2,'Getting married, having a few kids, buying some stuff, retiring to Florida, and dying.',1),
-(3,'A pyramid of severed heads.',1),
-(4,'Crucifixion.',1),
-(5,'A subscription to Men\'s Fitness.',1),
-(6,'Some god-damn peace and quiet.',1),
-(7,'A micropig wearing a tiny raincoat and booties.',1),
-(8,'Used panties.',1),
-(9,'The penny whistle solo from \"My Heart Will Go On.\"',1),
-(10,'A tribe of warrior women.',1),
-(11,'An oversized lollipop.',1),
-(12,'Helplessly giggling at the mention of Hutus and Tutsis.',1),
-(13,'Not wearing pants.',1),
-(14,'Consensual sex.',1),
-(15,'Her Majesty, Queen Elizabeth II.',1);
-
-CREATE TABLE 'users_input' (
-  id int NOT NULL AUTO_INCREMENT,
-  name VARCHAR(15) NOT NULL,
-  password NOT NULL,
-  PRIMARY KEY ('id')
-)
-
-INSERT INTO 'users_input' ()
-
-Questions for Team/TAs/Vinnie
-//How do we do this in javascript?
-//how do we connect firebase?
-
-
-CREATE TABLE 'game_tallys' (
-  id int NOT NULL AUTO_INCREMENT,
-  wins int NOT NULL,
-  losses int NOT NULL
-)
-
-INSERT INTO 'game_tallys' ()
+(1,'Being fat and stupid.'),
+(2,'Getting married, having a few kids, buying some stuff, retiring to Florida, and dying.'),
+(3,'A pyramid of severed heads.'),
+(4,'Crucifixion.'),
+(5,'A subscription to Men\'s Fitness.'),
+(6,'Some god-damn peace and quiet.'),
+(7,'A micropig wearing a tiny raincoat and booties.'),
+(8,'Used panties.'),
+(9,'The penny whistle solo from \"My Heart Will Go On.\"'),
+(10,'A tribe of warrior women.'),
+(11,'An oversized lollipop.'),
+(12,'Helplessly giggling at the mention of Hutus and Tutsis.'),
+(13,'Not wearing pants.'),
+(14,'Consensual sex.'),
+(15,'Her Majesty, Queen Elizabeth II.');
+--
+-- CREATE TABLE 'game_tallys' (
+--   id int NOT NULL AUTO_INCREMENT,
+--   wins int NOT NULL,
+--   losses int NOT NULL
+-- )
+--
+-- INSERT INTO 'game_tallys' (
+--
+-- )
