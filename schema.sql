@@ -1,6 +1,6 @@
-CREATE database sequelize_passport;
+CREATE database cardusers;
 
-USE sequelize_passport;
+USE cardusers;
 
 CREATE TABLE `blackCards` (
   `id` INT(9) NOT NULL AUTO_INCREMENT,
