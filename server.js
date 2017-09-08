@@ -11,7 +11,7 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var LocalStrategy = require('passport-local').Strategy;
 
-var PORT = process.env.PORT || 8080
+var PORT = process.env.PORT || 3000
 
 
 var users = require('./routes/auth');
@@ -30,7 +30,7 @@ var users = require('./routes/auth');
     ); // session secret
 
     app.use(passport.initialize());
-    app.use(passport.session()); // persistent login sessions
+    // app.use(passport.session()); // persistent login sessions
 
 
     app.set('views', path.join(__dirname, 'views'));
@@ -78,8 +78,7 @@ var users = require('./routes/auth');
 
 
 
-	app.listen(3000, function(err){
-		if(!err)
-		console.log("Site is live at port 3000"); else console.log(err)
-
-	});
+	app.listen(PORT, function(err){
+      if(!err)
+      console.log("Site is live at port 3000"); else console.log(err)
+  });
