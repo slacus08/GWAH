@@ -1,7 +1,7 @@
 var express    = require('express')
     var app        = express()
     var passport   = require('passport')
-    // var session    = require('express-session')
+    var session    = require('express-session')
     var flash = require('connect-flash')
     var bodyParser = require('body-parser')
     var expressValidator = require('express-validator')
@@ -23,11 +23,11 @@ try {
 
 
      // For Passport
-    // app.use(session({
-    //   secret: 'secret',
-    //   resave: true,
-    //   saveUninitialized:true})
-    // ); // session secret
+    app.use(session({
+      secret: 'secret',
+      resave: true,
+      saveUninitialized:true})
+    ); // session secret
 
     app.use(passport.initialize());
     app.use(passport.session()); // persistent login sessions
