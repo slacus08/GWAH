@@ -1,7 +1,7 @@
 var express    = require('express')
     var app        = express()
     var passport   = require('passport')
-    var session    = require('express-session')
+    // var session    = require('express-session')
     var flash = require('connect-flash')
     var bodyParser = require('body-parser')
     var expressValidator = require('express-validator')
@@ -10,7 +10,6 @@ var express    = require('express')
     var path = require('path')
     var cookieParser = require('cookie-parser')
     var LocalStrategy = require('passport-local').Strategy;
-var MemoryStore = require('session-memory-store')(session);
 
 try {
     var users = require('./routes/auth');
