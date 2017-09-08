@@ -29,7 +29,7 @@ VALUES
 
 CREATE TABLE `whiteCards` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `text` VARCHAR NOT NULL,
+  `text` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -50,7 +50,52 @@ VALUES
 (13,'Not wearing pants.'),
 (14,'Consensual sex.'),
 (15,'Her Majesty, Queen Elizabeth II.');
---
+(16,'Abortions.'),
+(17,'Man meat.'),
+(18,'Autocannibalism.'),
+(19,'Vigorous jazz hands.'),
+(20,'Flightless birds.'),
+(21,'Pictures of boobs.'),
+(22,'Doing the right thing.'),
+(23,'Hunting accidents.'),
+(24,'A cartoon camel enjoying the smooth, refreshing taste of a cigarette.'),
+(25,'The violation of our most basic human rights.'),
+(26,'Viagra®.'),
+(27,'Self-loathing.'),
+(28,'Spectacular abs.'),
+(29,'An honest cop with nothing left to lose.'),
+(30,'Abstinence.'),
+(31,'A balanced breakfast.'),
+(32,'Mountain Dew Code Red.'),
+(33,'Concealing a boner.'),
+(34,'Roofies.'),
+(35,'Glenn Beck convulsively vomiting as a brood of crab spiders hatches in his brain and erupts from his tear ducts.',1),
+(36,'Tweeting.'),
+(37,'The Big Bang.'),
+(38,'Amputees.'),
+(39,'The Rev. Dr. Martin Luther King, Jr.'),
+(40,'Former President George W. Bush.'),
+(41,'Being marginalized.'),
+(42,'Smegma.'),
+(43,'Laying an egg.'),
+(44,'Cuddling.'),
+(45,'Aaron Burr.'),
+(46,'The Pope.'),
+(47,'A bleached asshole.'),
+(48,'Horse meat.'),
+(49,'Genital piercings.'),
+(50,'Fingering.'),
+(51,'Elderly Japanese men.'),
+(52,'Stranger danger.'),
+(53,'Fear itself.'),
+(54,'Science.'),
+(55,'Praying the gay away.'),
+(56,'Same-sex ice dancing.'),
+(57,'The terrorists.'),
+(58,'Making sex at her.'),
+(59,'German dungeon porn.'),
+(60,'Bingeing and purging.')
+
 -- CREATE TABLE 'game_tallys' (
 --   id int NOT NULL AUTO_INCREMENT,
 --   wins int NOT NULL,
