@@ -1,5 +1,12 @@
 var bCrypt = require('bcrypt-nodejs');
 
+// // module.js
+// var name = "foobar";
+// // export it
+// exports.name = name;
+
+var username;
+
   module.exports = function(passport,user){
 
   var User = user;
@@ -53,6 +60,7 @@ var bCrypt = require('bcrypt-nodejs');
         var data =
         { email:email,
         password:userPassword,
+        username: req.body.username,
         firstname: req.body.firstname,
         lastname: req.body.lastname
         };
@@ -116,6 +124,8 @@ var bCrypt = require('bcrypt-nodejs');
 
       var userinfo = user.get();
 
+      username = user.get().username;
+
       return done(null,userinfo);
 
     }).catch(function(err){
@@ -131,3 +141,5 @@ var bCrypt = require('bcrypt-nodejs');
   ));
 
   }
+
+  exports.username = username;
