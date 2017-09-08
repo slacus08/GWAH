@@ -1,20 +1,18 @@
-var express    = require('express')
-    var app        = express()
-    var passport   = require('passport')
-    var session    = require('express-session')
-    var flash = require('connect-flash')
-    var bodyParser = require('body-parser')
-    var expressValidator = require('express-validator')
-    var cookieParser = require('cookie-parser');
-    var exphbs     = require('express-handlebars')
-    var path = require('path')
-    var cookieParser = require('cookie-parser')
-    var LocalStrategy = require('passport-local').Strategy;
+var express = require('express')
+var app = express()
+var passport = require('passport')
+var session = require('express-session')
+var flash = require('connect-flash')
+var bodyParser = require('body-parser')
+var expressValidator = require('express-validator')
+var cookieParser = require('cookie-parser');
+var exphbs = require('express-handlebars')
+var path = require('path')
+var cookieParser = require('cookie-parser')
+var LocalStrategy = require('passport-local').Strategy;
 
-    var PORT = process.env.PORT || 3000;
 
-try {
-    var users = require('./routes/auth');
+var users = require('./routes/auth');
 
     //For BodyParser
     app.use(bodyParser.json());
@@ -44,10 +42,10 @@ try {
 
     app.use(expressValidator());
 
-    // // Connect Flash
+    // Connect Flash
     app.use(flash());
 
-    // // Global Vars
+    // Global Vars
     app.use(function (req, res, next) {
       res.locals.success_msg = req.flash('success_msg');
       res.locals.error_msg = req.flash('error_msg');
@@ -59,12 +57,14 @@ try {
 
     //Routes
     var authRoute = require('./routes/auth.js')(app,passport);
-
-
+    // app.use('/api', apiRoutes);
     //load passport strategies
     require('./config/passport/passport.js')(passport,models.user);
 
+    var apiRoutes = require('./app/routes/api-routes.js');
+
     app.use('/auth', users);
+    app.use('/api', apiRoutes);
 
     //Sync Database
    	models.sequelize.sync().then(function(){
@@ -76,12 +76,8 @@ try {
 
 
 
-	app.listen(PORT, function(err){
+	app.listen(3000, function(err){
 		if(!err)
 		console.log("Site is live at port 3000"); else console.log(err)
 
 	});
-
-} catch(e) {
-  console.log(e);
-}
