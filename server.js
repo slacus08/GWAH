@@ -10,7 +10,7 @@ var express    = require('express')
     var path = require('path')
     var cookieParser = require('cookie-parser')
     var LocalStrategy = require('passport-local').Strategy;
-
+var MemoryStore = require('session-memory-store')(session);
 
 
     var users = require('./routes/auth');
@@ -22,11 +22,11 @@ var express    = require('express')
 
 
      // For Passport
-    app.use(session({
-      secret: 'secret',
-      resave: true,
-      saveUninitialized:true})
-    ); // session secret
+    // app.use(session({
+    //   secret: 'secret',
+    //   resave: true,
+    //   saveUninitialized:true})
+    // ); // session secret
 
     app.use(passport.initialize());
     app.use(passport.session()); // persistent login sessions
