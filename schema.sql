@@ -49,7 +49,7 @@ VALUES
 (12,'Helplessly giggling at the mention of Hutus and Tutsis.'),
 (13,'Not wearing pants.'),
 (14,'Consensual sex.'),
-(15,'Her Majesty, Queen Elizabeth II.');
+(15,'Her Majesty, Queen Elizabeth II.'),
 (16,'Abortions.'),
 (17,'Man meat.'),
 (18,'Autocannibalism.'),
@@ -69,7 +69,7 @@ VALUES
 (32,'Mountain Dew Code Red.'),
 (33,'Concealing a boner.'),
 (34,'Roofies.'),
-(35,'Glenn Beck convulsively vomiting as a brood of crab spiders hatches in his brain and erupts from his tear ducts.',1),
+(35,'Glenn Beck convulsively vomiting as a brood of crab spiders hatches in his brain and erupts from his tear ducts.'),
 (36,'Tweeting.'),
 (37,'The Big Bang.'),
 (38,'Amputees.'),
