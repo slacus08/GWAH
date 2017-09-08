@@ -1,6 +1,6 @@
-CREATE database sequelize_passport;
+CREATE database cardusers;
 
-USE sequelize_passport;
+USE cardusers;
 
 CREATE TABLE `blackCards` (
   `id` INT(9) NOT NULL AUTO_INCREMENT,
@@ -49,7 +49,7 @@ VALUES
 (12,'Helplessly giggling at the mention of Hutus and Tutsis.'),
 (13,'Not wearing pants.'),
 (14,'Consensual sex.'),
-(15,'Her Majesty, Queen Elizabeth II.');
+(15,'Her Majesty, Queen Elizabeth II.'),
 (16,'Abortions.'),
 (17,'Man meat.'),
 (18,'Autocannibalism.'),

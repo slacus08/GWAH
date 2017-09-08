@@ -1,15 +1,23 @@
 $(document).ready(function() {
 
-
-	var user = "";
-
-	//needs to come from firebase, which comes from sql
 	var cardsFromSql = ["fun1", "fun2","fun3","fun4","fun5","fun6","fun7","fun8","fun9","fun10","fun11","fun12","fun13","fun14","fun15","fun16","fun17","fun18","fun19"];
 
 	//needs to come from firebase, which comes from sql
-	var whiteCardsFromSql = ["WCfun1", "WCfun2","WCfun3","WCfun4","WCfun5","WCfun6","WCfun7","WCfun8","WCfun9","WCfun10","WCfun11","WCfun12","WCfun13","WCfun14","WCfun15","WCfun16","WCfun17","WCfun18","WCfun19"];
+	var whiteCardsFromSql = []
 
-	//
+	function whiteCardsGet() {
+    $.get("/api/whitecards", function(data) {
+	    for (var i = 0; i < data.length; i++) {
+	      whiteCardsFromSql.push(data[i].text);
+	    }
+	    console.log(whiteCardsFromSql);
+    	});
+  	};
+  	
+ 	whiteCardsGet()
+
+	var user = "";
+
 	var playerIndex;
 
 	var hand = [];
