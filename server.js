@@ -11,6 +11,8 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var LocalStrategy = require('passport-local').Strategy;
 
+var PORT = process.env.PORT || 8080
+
 
 var users = require('./routes/auth');
 

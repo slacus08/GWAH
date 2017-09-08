@@ -2,6 +2,9 @@ var express = require('express');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var expressValidator = require('express-validator');
+
+
+
 module.exports = function(app,passport){
 
 
