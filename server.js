@@ -11,6 +11,8 @@ var express    = require('express')
     var cookieParser = require('cookie-parser')
     var LocalStrategy = require('passport-local').Strategy;
 
+    var PORT = process.env.PORT || 3000;
+
 try {
     var users = require('./routes/auth');
 
@@ -74,7 +76,7 @@ try {
 
 
 
-	app.listen(8080, function(err){
+	app.listen(PORT, function(err){
 		if(!err)
 		console.log("Site is live at port 3000"); else console.log(err)
 
