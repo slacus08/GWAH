@@ -12,7 +12,7 @@ var express    = require('express')
     var LocalStrategy = require('passport-local').Strategy;
 
 
-
+try {
     var users = require('./routes/auth');
 
     //For BodyParser
@@ -81,3 +81,6 @@ var express    = require('express')
 
 	});
 
+} catch(e) {
+  console.log(e);
+}
