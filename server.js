@@ -74,7 +74,7 @@ try {
 
 
 
-	app.listen(3000, function(err){
+	app.listen(8080, function(err){
 		if(!err)
 		console.log("Site is live at port 3000"); else console.log(err)
 
