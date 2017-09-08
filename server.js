@@ -30,7 +30,7 @@ var users = require('./routes/auth');
     ); // session secret
 
     app.use(passport.initialize());
-    // app.use(passport.session()); // persistent login sessions
+    app.use(passport.session()); // persistent login sessions
 
 
     app.set('views', path.join(__dirname, 'views'));
