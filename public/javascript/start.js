@@ -5,27 +5,6 @@ $(document).ready(function() {
 	//needs to come from firebase, which comes from sql
 	var whiteCardsFromSql = []
 
-	function whiteCardsGet() {
-    $.get("/api/whitecards", function(data) {
-	    for (var i = 0; i < data.length; i++) {
-	      whiteCardsFromSql.push(data[i].text);
-	    }
-	    console.log(whiteCardsFromSql);
-    	});
-  	};
-
-  	function blackCardsGet() {
-    $.get("/api/blackcard", function(data) {
-	    for (var i = 0; i < data.length; i++) {
-	      cardsFromSql.push(data[i].text);
-	    }
-	    console.log(cardsFromSql);
-    	});
-  	};
-  	
- 	whiteCardsGet();
- 	blackCardsGet();
-
 	var user = "";
 
 	var playerIndex;
@@ -59,6 +38,9 @@ $(document).ready(function() {
 	var ref = firebase.database().ref();
 
 	var idCount = 0;
+
+	whiteCardsGet();
+ 	blackCardsGet();
 
 	//event listener for ID Count
 
@@ -137,6 +119,8 @@ $(document).ready(function() {
 
   		if(!user) {
 
+  			updateCardsToFirebase(cardsFromSql, whiteCardsFromSql)
+
 		  	user = $('#username-input').val();
 
 		  	if(idCount >= 1) {
@@ -161,6 +145,7 @@ $(document).ready(function() {
 				});
 
 				push6CardsFromLocal(hand);
+
 
 				dealtHandAppearsOnScreen();
 
@@ -335,6 +320,27 @@ $(document).ready(function() {
 		}
 	};
 
+
+	function whiteCardsGet() {
+    $.get("/api/whitecards", function(data) {
+	    for (var i = 0; i < data.length; i++) {
+
+	      whiteCardsFromSql.push(data[i].text);
+	    }
+	    console.log(whiteCardsFromSql);
+    	});
+  	};
+
+  	function blackCardsGet() {
+    $.get("/api/blackcard", function(data) {
+	    for (var i = 0; i < data.length; i++) {
+	      cardsFromSql.push(data[i].text);
+	    }
+	    console.log(cardsFromSql);
+    	});
+  	};
+
 });
+
 
 
