@@ -1,12 +1,19 @@
 var Sequelize = require("sequelize");
 var env = process.env.NODE_ENV || "development";
 var path = require('path');
-// var db = require('./index.js');
-
 var config = require(path.join(__dirname, 'config', 'config.json'))[env];
-var sequelize = new Sequelize(config.database, config.username, config.password, config);
+var sequelize = null;
 
-var model = sequelize.import(path.join(__dirname, 'app/models/black-card'));
+if (config.use_env_variable) {
+  var sequelize = new Sequelize({
+    url: process.env.JAWSDB_URL,
+    dialect: 'mysql'
+  });
+} else {
+  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
+
+var model = sequelize.import(path.join(__dirname, 'models/black-card'));
 sequelize['BlackCard'] = model;
 
 var arrayOfCards = [{
