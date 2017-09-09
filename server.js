@@ -10,6 +10,7 @@ var exphbs = require('express-handlebars')
 var path = require('path')
 var cookieParser = require('cookie-parser')
 var LocalStrategy = require('passport-local').Strategy;
+var seed = require('./upload.js');
 
 var PORT = process.env.PORT || 3000
 
@@ -73,7 +74,7 @@ var users = require('./routes/auth');
     console.log('Nice! Database looks fine')
 
     }).catch(function(err){
-    console.log(err,"Something went wrong with the Database Update!")
+      console.log(err,"Something went wrong with the Database Update!")
     });
 
 

@@ -3,9 +3,10 @@ var env = process.env.NODE_ENV || "development";
 var path = require('path');
 // var db = require('./index.js');
 
-var sequelize = new Sequelize({dialect: 'mysql', use_env_variable: 'JAWSDB_URL'});
+var config = require(path.join(__dirname, 'config', 'config.json'))[env];
+var sequelize = new Sequelize(config.database, config.username, config.password, config);
 
-var model = sequelize.import(path.join(__dirname, 'black-card'));
+var model = sequelize.import(path.join(__dirname, 'app/models/black-card'));
 sequelize['BlackCard'] = model;
 
 var arrayOfCards = [{
