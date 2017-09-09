@@ -4,6 +4,8 @@ var path = require('path');
 var config = require(path.join(__dirname, 'config', 'config.json'))[env];
 var sequelize = null;
 
+console.log(process.env.NODE_ENV);
+
 if (config.use_env_variable) {
   var sequelize = new Sequelize({
     url: process.env.JAWSDB_URL,
