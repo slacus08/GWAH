@@ -7,6 +7,7 @@ var sequelize = null;
 console.log(process.env.NODE_ENV);
 
 if (config.use_env_variable) {
+  console.log(process.env.JAWSDB_URL)
   var sequelize = new Sequelize({
     url: process.env.JAWSDB_URL,
     dialect: 'mysql'
