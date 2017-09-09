@@ -20,12 +20,9 @@ router.get("/blackcard", function (req, res) {
   db.blackCard.findAll({
     attributes: ['text']
   }).then(function(bcards) {
-    var textarray = [];
 
-    for (var i = 0; i < bcards.length; i++) {
-      textarray.push(bcards[i].text);
-    }
-    res.json(textarray);
+    res.json(bcards);
+    
   });
 });
 

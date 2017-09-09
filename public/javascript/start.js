@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	var cardsFromSql = ["fun1", "fun2","fun3","fun4","fun5","fun6","fun7","fun8","fun9","fun10","fun11","fun12","fun13","fun14","fun15","fun16","fun17","fun18","fun19"];
+	var cardsFromSql = [];
 
 	//needs to come from firebase, which comes from sql
 	var whiteCardsFromSql = []
@@ -13,8 +13,18 @@ $(document).ready(function() {
 	    console.log(whiteCardsFromSql);
     	});
   	};
+
+  	function blackCardsGet() {
+    $.get("/api/blackcard", function(data) {
+	    for (var i = 0; i < data.length; i++) {
+	      cardsFromSql.push(data[i].text);
+	    }
+	    console.log(cardsFromSql);
+    	});
+  	};
   	
- 	whiteCardsGet()
+ 	whiteCardsGet();
+ 	blackCardsGet();
 
 	var user = "";
 
@@ -212,7 +222,7 @@ $(document).ready(function() {
 
 			//need to update to all screens.  
 
-			database.ref("user1").on("value", function(snapshot) {
+			database.ref(firebaseCzar).on("value", function(snapshot) {
 				czarCardPlayed = snapshot.val().czarCardPlayed;
 				czarSelected = snapshot.val().czarSelected;
 				console.log(czarSelected, czarCardPlayed);
@@ -239,7 +249,7 @@ $(document).ready(function() {
 			  return userHasntPlayed = snapshot.key;
 			}); 
 
-			database.ref("user1").on("value", function(snapshot) {
+			database.ref(firebaseCzar).on("value", function(snapshot) {
 				czarCardPlayed = snapshot.val().czarCardPlayed;
 			});
 
@@ -311,7 +321,7 @@ $(document).ready(function() {
 
 	function singleBlackCardPlayed() {
 
-		var indexOfCard =  Math.floor(Math.random() * (17 - 0 + 1)) + 0
+		var indexOfCard =  Math.floor(Math.random() * (15 - 0 + 1)) + 0
 
 		database.ref().once("value", function(childSnapshot) {
 			blackCard = childSnapshot.val().blackCards[indexOfCard];
