@@ -13,7 +13,7 @@ if (config.use_env_variable) {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-var model = sequelize.import(path.join(__dirname, 'models/black-card'));
+var model = sequelize.import(path.join(__dirname, 'app/models/black-card'));
 sequelize['BlackCard'] = model;
 
 var arrayOfCards = [{
