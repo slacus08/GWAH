@@ -64,9 +64,11 @@ var users = require('./routes/auth');
     require('./config/passport/passport.js')(passport,models.user);
 
     var apiRoutes = require('./app/routes/api-routes.js');
+    var buildRoutes = require('./routes/build.js');
 
     app.use('/auth', users);
     app.use('/api', apiRoutes);
+    app.use('/build', buildRoutes);
 
     //Sync Database
    	models.sequelize.sync().then(function(){
