@@ -24,11 +24,11 @@ var users = require('./routes/auth');
 
 
      // For Passport
-    app.use(session({
-      secret: 'secret',
-      resave: true,
-      saveUninitialized:true})
-    ); // session secret
+    // app.use(session({
+    //   secret: 'secret',
+    //   resave: true,
+    //   saveUninitialized:true})
+    // ); // session secret
 
     app.use(passport.initialize());
     app.use(passport.session()); // persistent login sessions
