@@ -9,7 +9,8 @@ var sequelize = null;
 var db = {};
 
 if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env.JAWSDB_URL, {
+  var sequelize = new Sequelize({
+    url: process.env.JAWSDB_URL,
     dialect: 'mysql'
   });
 } else {
