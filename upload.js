@@ -9,7 +9,7 @@ console.log(process.env.NODE_ENV);
 if (config.use_env_variable) {
   console.log(process.env.JAWSDB_URL)
   var sequelize = new Sequelize({
-    url: process.env.JAWSDB_URL,
+    url: 'mysql://sns50ozpeq2bzyee:fcr9oxq0ebi06774@p1us8ottbqwio8hv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/p4809kjzew03ne4r',
     dialect: 'mysql'
   });
 } else {
