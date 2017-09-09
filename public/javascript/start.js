@@ -42,6 +42,8 @@ $(document).ready(function() {
 	whiteCardsGet();
  	blackCardsGet();
 
+ 	console.log(cardsFromSql, whiteCardsFromSql)
+
 	//event listener for ID Count
 
 	database.ref('count').on("value", function(snapshot) {
@@ -119,8 +121,6 @@ $(document).ready(function() {
 
   		if(!user) {
 
-  			updateCardsToFirebase(cardsFromSql, whiteCardsFromSql)
-
 		  	user = $('#username-input').val();
 
 		  	if(idCount >= 1) {
@@ -139,13 +139,13 @@ $(document).ready(function() {
 
 				database.ref().once("value", function(childSnapshot) {
 					whiteCards = childSnapshot.val().whiteCards;
+					console.log(whiteCards);
 					hand = [whiteCards[0], whiteCards[1], whiteCards[2], whiteCards[3], whiteCards[4], whiteCards[5]];
 					whiteCards.splice(0,6)
 					database.ref().update({"whiteCards": whiteCards});
 				});
 
 				push6CardsFromLocal(hand);
-
 
 				dealtHandAppearsOnScreen();
 
