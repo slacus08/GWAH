@@ -3,7 +3,7 @@ var env = process.env.NODE_ENV || "development";
 var path = require('path');
 // var db = require('./index.js');
 
-var sequelize = new Sequelize({dialect: 'mysql', use_env_variable: 'mysql://sns50ozpeq2bzyee:fcr9oxq0ebi06774@p1us8ottbqwio8hv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/p4809kjzew03ne4r'});
+var sequelize = new Sequelize({dialect: 'mysql', use_env_variable: 'JAWSDB_URL'});
 
 var model = sequelize.import(path.join(__dirname, 'black-card'));
 sequelize['BlackCard'] = model;
