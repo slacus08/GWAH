@@ -1,4 +1,4 @@
-var db = require("../models");
+var db = require("../app/models");
 var express = require('express');
 var router = express.Router();
 
@@ -53,3 +53,5 @@ router.get('/black-cards', function (req, res) {
 
 		res.end();
 });
+
+module.exports = router;
