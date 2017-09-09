@@ -41,7 +41,7 @@ var users = require('./routes/auth');
     app.use(express.static(path.join(__dirname, 'public')));
 
   //Models
-    var models = require("./models");
+    var models = require("./app/models");
 
     app.use(expressValidator());
 
