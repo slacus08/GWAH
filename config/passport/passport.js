@@ -1,10 +1,5 @@
 var bCrypt = require('bcrypt-nodejs');
 
-// // module.js
-// var name = "foobar";
-// // export it
-// exports.name = name;
-
 var username;
 
 module.exports = function(passport,user){
